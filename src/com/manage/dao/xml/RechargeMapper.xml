@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manage.dao.mapper.RechargeMapper" >
+  <resultMap id="BaseResultMap" type="com.manage.dao.model.Recharge" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="memberId" property="memberid" jdbcType="BIGINT" />
+    <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="giveAmount" property="giveamount" jdbcType="INTEGER" />
+    <result column="realAmount" property="realamount" jdbcType="INTEGER" />
+    <result column="discount" property="discount" jdbcType="DOUBLE" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="payway" property="payway" jdbcType="VARCHAR" />
+    <result column="orderNo" property="orderno" jdbcType="VARCHAR" />
+    <result column="transactNo" property="transactno" jdbcType="VARCHAR" />
+    <result column="dealTime" property="dealtime" jdbcType="TIMESTAMP" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, memberId, amount, giveAmount, realAmount, discount, status, payway, orderNo, 
+    transactNo, dealTime, createTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.manage.dao.model.RechargeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_recharge
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pager != null" >
+      limit #{pager.begin} , #{pager.end}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_recharge
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_recharge
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.manage.dao.model.RechargeExample" >
+    delete from t_recharge
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.manage.dao.model.Recharge" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_recharge (id, memberId, amount, 
+      giveAmount, realAmount, discount, 
+      status, payway, orderNo, 
+      transactNo, dealTime, createTime
+      )
+    values (#{id,jdbcType=BIGINT}, #{memberid,jdbcType=BIGINT}, #{amount,jdbcType=INTEGER}, 
+      #{giveamount,jdbcType=INTEGER}, #{realamount,jdbcType=INTEGER}, #{discount,jdbcType=DOUBLE}, 
+      #{status,jdbcType=VARCHAR}, #{payway,jdbcType=VARCHAR}, #{orderno,jdbcType=VARCHAR}, 
+      #{transactno,jdbcType=VARCHAR}, #{dealtime,jdbcType=TIMESTAMP}, #{createtime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.manage.dao.model.Recharge" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_recharge
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="memberid != null" >
+        memberId,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="giveamount != null" >
+        giveAmount,
+      </if>
+      <if test="realamount != null" >
+        realAmount,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="payway != null" >
+        payway,
+      </if>
+      <if test="orderno != null" >
+        orderNo,
+      </if>
+      <if test="transactno != null" >
+        transactNo,
+      </if>
+      <if test="dealtime != null" >
+        dealTime,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="memberid != null" >
+        #{memberid,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="giveamount != null" >
+        #{giveamount,jdbcType=INTEGER},
+      </if>
+      <if test="realamount != null" >
+        #{realamount,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DOUBLE},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="payway != null" >
+        #{payway,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="transactno != null" >
+        #{transactno,jdbcType=VARCHAR},
+      </if>
+      <if test="dealtime != null" >
+        #{dealtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.manage.dao.model.RechargeExample" resultType="java.lang.Integer" >
+    select count(*) from t_recharge
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_recharge
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.memberid != null" >
+        memberId = #{record.memberid,jdbcType=BIGINT},
+      </if>
+      <if test="record.amount != null" >
+        amount = #{record.amount,jdbcType=INTEGER},
+      </if>
+      <if test="record.giveamount != null" >
+        giveAmount = #{record.giveamount,jdbcType=INTEGER},
+      </if>
+      <if test="record.realamount != null" >
+        realAmount = #{record.realamount,jdbcType=INTEGER},
+      </if>
+      <if test="record.discount != null" >
+        discount = #{record.discount,jdbcType=DOUBLE},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.payway != null" >
+        payway = #{record.payway,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderno != null" >
+        orderNo = #{record.orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transactno != null" >
+        transactNo = #{record.transactno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dealtime != null" >
+        dealTime = #{record.dealtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_recharge
+    set id = #{record.id,jdbcType=BIGINT},
+      memberId = #{record.memberid,jdbcType=BIGINT},
+      amount = #{record.amount,jdbcType=INTEGER},
+      giveAmount = #{record.giveamount,jdbcType=INTEGER},
+      realAmount = #{record.realamount,jdbcType=INTEGER},
+      discount = #{record.discount,jdbcType=DOUBLE},
+      status = #{record.status,jdbcType=VARCHAR},
+      payway = #{record.payway,jdbcType=VARCHAR},
+      orderNo = #{record.orderno,jdbcType=VARCHAR},
+      transactNo = #{record.transactno,jdbcType=VARCHAR},
+      dealTime = #{record.dealtime,jdbcType=TIMESTAMP},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.manage.dao.model.Recharge" >
+    update t_recharge
+    <set >
+      <if test="memberid != null" >
+        memberId = #{memberid,jdbcType=BIGINT},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="giveamount != null" >
+        giveAmount = #{giveamount,jdbcType=INTEGER},
+      </if>
+      <if test="realamount != null" >
+        realAmount = #{realamount,jdbcType=INTEGER},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=DOUBLE},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="payway != null" >
+        payway = #{payway,jdbcType=VARCHAR},
+      </if>
+      <if test="orderno != null" >
+        orderNo = #{orderno,jdbcType=VARCHAR},
+      </if>
+      <if test="transactno != null" >
+        transactNo = #{transactno,jdbcType=VARCHAR},
+      </if>
+      <if test="dealtime != null" >
+        dealTime = #{dealtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.manage.dao.model.Recharge" >
+    update t_recharge
+    set memberId = #{memberid,jdbcType=BIGINT},
+      amount = #{amount,jdbcType=INTEGER},
+      giveAmount = #{giveamount,jdbcType=INTEGER},
+      realAmount = #{realamount,jdbcType=INTEGER},
+      discount = #{discount,jdbcType=DOUBLE},
+      status = #{status,jdbcType=VARCHAR},
+      payway = #{payway,jdbcType=VARCHAR},
+      orderNo = #{orderno,jdbcType=VARCHAR},
+      transactNo = #{transactno,jdbcType=VARCHAR},
+      dealTime = #{dealtime,jdbcType=TIMESTAMP},
+      createTime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

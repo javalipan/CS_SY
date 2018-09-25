@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manage.query.mapper.OrderQueryMapper" >
+	
+	<select id="getBrandLabel" resultType="com.manage.query.model.OrderQuery">
+		select b.name labelName,count(1) cnt from t_order o
+		left join t_order_detail od on o.id=od.orderId
+		left join t_goods_detail gd on gd.id=od.goodsDetailId
+		left join t_goods g on g.id=gd.goodsId
+		left join t_brand b on b.id=g.brandId
+		where o.memberId=#{memberid} group by b.id order by cnt DESC,o.ordertime desc limit 0,1
+	</select>
+	
+	<select id="getStyleLabel" resultType="com.manage.query.model.OrderQuery">
+		select s.name labelName,count(1) cnt from t_order o
+		left join t_order_detail od on o.id=od.orderId
+		left join t_goods_detail gd on gd.id=od.goodsDetailId
+		left join t_goods g on g.id=gd.goodsId
+		left join t_style s on s.id=g.styleTypeid
+		where o.memberId=#{memberid} group by s.id order by cnt DESC,o.ordertime desc limit 0,1
+	</select>
+	
+	<select id="getSizeLabel" resultType="com.manage.query.model.OrderQuery">
+		select s.specValue labelName,count(1) cnt from t_order o
+		left join t_order_detail od on o.id=od.orderId
+		left join t_goods_detail gd on gd.id=od.goodsDetailId
+		left join t_spec s on s.id=gd.sizeId
+		where o.memberId=#{memberid} group by s.id order by cnt DESC,o.ordertime desc limit 0,1
+	</select>
+	
+	<select id="getOrderCnt" resultType="com.manage.query.model.OrderQuery">
+		select count(1) cnt from t_order o
+		where o.memberId=#{memberid}
+	</select>
+	
+</mapper>

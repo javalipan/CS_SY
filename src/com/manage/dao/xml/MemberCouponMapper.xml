@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manage.dao.mapper.MemberCouponMapper" >
+  <resultMap id="BaseResultMap" type="com.manage.dao.model.MemberCoupon" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="memberId" property="memberid" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="subtitle" property="subtitle" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="logoUrl" property="logourl" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="couponId" property="couponid" jdbcType="BIGINT" />
+    <result column="money" property="money" jdbcType="INTEGER" />
+    <result column="startTime" property="starttime" jdbcType="TIMESTAMP" />
+    <result column="endTime" property="endtime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="useTime" property="usetime" jdbcType="TIMESTAMP" />
+    <result column="orderId" property="orderid" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, memberId, name, subtitle, remark, logoUrl, code, couponId, money, startTime, 
+    endTime, status, useTime, orderId
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.manage.dao.model.MemberCouponExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_member_coupon
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pager != null" >
+      limit #{pager.begin} , #{pager.end}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_member_coupon
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_member_coupon
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.manage.dao.model.MemberCouponExample" >
+    delete from t_member_coupon
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.manage.dao.model.MemberCoupon" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_member_coupon (id, memberId, name, 
+      subtitle, remark, logoUrl, 
+      code, couponId, money, 
+      startTime, endTime, status, 
+      useTime, orderId)
+    values (#{id,jdbcType=BIGINT}, #{memberid,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, 
+      #{subtitle,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{logourl,jdbcType=VARCHAR}, 
+      #{code,jdbcType=VARCHAR}, #{couponid,jdbcType=BIGINT}, #{money,jdbcType=INTEGER}, 
+      #{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
+      #{usetime,jdbcType=TIMESTAMP}, #{orderid,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.manage.dao.model.MemberCoupon" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_member_coupon
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="memberid != null" >
+        memberId,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="subtitle != null" >
+        subtitle,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="logourl != null" >
+        logoUrl,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="couponid != null" >
+        couponId,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="starttime != null" >
+        startTime,
+      </if>
+      <if test="endtime != null" >
+        endTime,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="usetime != null" >
+        useTime,
+      </if>
+      <if test="orderid != null" >
+        orderId,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="memberid != null" >
+        #{memberid,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="subtitle != null" >
+        #{subtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="logourl != null" >
+        #{logourl,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="couponid != null" >
+        #{couponid,jdbcType=BIGINT},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=INTEGER},
+      </if>
+      <if test="starttime != null" >
+        #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="usetime != null" >
+        #{usetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderid != null" >
+        #{orderid,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.manage.dao.model.MemberCouponExample" resultType="java.lang.Integer" >
+    select count(*) from t_member_coupon
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_member_coupon
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.memberid != null" >
+        memberId = #{record.memberid,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subtitle != null" >
+        subtitle = #{record.subtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logourl != null" >
+        logoUrl = #{record.logourl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.couponid != null" >
+        couponId = #{record.couponid,jdbcType=BIGINT},
+      </if>
+      <if test="record.money != null" >
+        money = #{record.money,jdbcType=INTEGER},
+      </if>
+      <if test="record.starttime != null" >
+        startTime = #{record.starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endtime != null" >
+        endTime = #{record.endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usetime != null" >
+        useTime = #{record.usetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.orderid != null" >
+        orderId = #{record.orderid,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_member_coupon
+    set id = #{record.id,jdbcType=BIGINT},
+      memberId = #{record.memberid,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      subtitle = #{record.subtitle,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      logoUrl = #{record.logourl,jdbcType=VARCHAR},
+      code = #{record.code,jdbcType=VARCHAR},
+      couponId = #{record.couponid,jdbcType=BIGINT},
+      money = #{record.money,jdbcType=INTEGER},
+      startTime = #{record.starttime,jdbcType=TIMESTAMP},
+      endTime = #{record.endtime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=VARCHAR},
+      useTime = #{record.usetime,jdbcType=TIMESTAMP},
+      orderId = #{record.orderid,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.manage.dao.model.MemberCoupon" >
+    update t_member_coupon
+    <set >
+      <if test="memberid != null" >
+        memberId = #{memberid,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="subtitle != null" >
+        subtitle = #{subtitle,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="logourl != null" >
+        logoUrl = #{logourl,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="couponid != null" >
+        couponId = #{couponid,jdbcType=BIGINT},
+      </if>
+      <if test="money != null" >
+        money = #{money,jdbcType=INTEGER},
+      </if>
+      <if test="starttime != null" >
+        startTime = #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        endTime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="usetime != null" >
+        useTime = #{usetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orderid != null" >
+        orderId = #{orderid,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.manage.dao.model.MemberCoupon" >
+    update t_member_coupon
+    set memberId = #{memberid,jdbcType=BIGINT},
+      name = #{name,jdbcType=VARCHAR},
+      subtitle = #{subtitle,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      logoUrl = #{logourl,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      couponId = #{couponid,jdbcType=BIGINT},
+      money = #{money,jdbcType=INTEGER},
+      startTime = #{starttime,jdbcType=TIMESTAMP},
+      endTime = #{endtime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      useTime = #{usetime,jdbcType=TIMESTAMP},
+      orderId = #{orderid,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

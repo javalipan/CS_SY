@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="CashierSystem"
+  id="myeclipse.1421462334102"
+  context-root="/CashierSystem"
+  j2ee-spec="5.0"
+  archive="CashierSystem.war">
+  <attributes>
+    <attribute name="webrootdir" value="/WebRoot" />
+  </attributes>
+</project-module>
+

@@ -1,0 +1,787 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manage.dao.mapper.GoodsMapper" >
+  <resultMap id="BaseResultMap" type="com.manage.dao.model.Goods" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="typeId" property="typeid" jdbcType="BIGINT" />
+    <result column="brandId" property="brandid" jdbcType="BIGINT" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="season" property="season" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="img" property="img" jdbcType="VARCHAR" />
+    <result column="clickCnt" property="clickcnt" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="sortno" property="sortno" jdbcType="INTEGER" />
+    <result column="productAddress" property="productaddress" jdbcType="VARCHAR" />
+    <result column="material" property="material" jdbcType="VARCHAR" />
+    <result column="washWay" property="washway" jdbcType="VARCHAR" />
+    <result column="shortIntro" property="shortintro" jdbcType="VARCHAR" />
+    <result column="priceJson" property="pricejson" jdbcType="VARCHAR" />
+    <result column="specJson" property="specjson" jdbcType="VARCHAR" />
+    <result column="isRecomment" property="isrecomment" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="unit" property="unit" jdbcType="VARCHAR" />
+    <result column="standard" property="standard" jdbcType="VARCHAR" />
+    <result column="stockType" property="stocktype" jdbcType="VARCHAR" />
+    <result column="Goods_Season" property="goodsSeason" jdbcType="VARCHAR" />
+    <result column="browseCnt" property="browsecnt" jdbcType="INTEGER" />
+    <result column="goodsYear" property="goodsyear" jdbcType="VARCHAR" />
+    <result column="styleTypeid" property="styletypeid" jdbcType="BIGINT" />
+    <result column="isDiscount" property="isdiscount" jdbcType="VARCHAR" />
+    <result column="discount" property="discount" jdbcType="DOUBLE" />
+    <result column="startTime" property="starttime" jdbcType="TIMESTAMP" />
+    <result column="endTime" property="endtime" jdbcType="TIMESTAMP" />
+    <result column="soldCnt" property="soldcnt" jdbcType="INTEGER" />
+    <result column="minPrice" property="minprice" jdbcType="DOUBLE" />
+    <result column="isnew" property="isnew" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.manage.dao.model.Goods" extends="BaseResultMap" >
+    <result column="intro" property="intro" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, code, typeId, brandId, sex, season, name, img, clickCnt, status, sortno, productAddress, 
+    material, washWay, shortIntro, priceJson, specJson, isRecomment, createTime, updateTime, 
+    unit, standard, stockType, Goods_Season, browseCnt, goodsYear, styleTypeid, isDiscount, 
+    discount, startTime, endTime, soldCnt, minPrice, isnew
+  </sql>
+  <sql id="Blob_Column_List" >
+    intro
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.manage.dao.model.GoodsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.manage.dao.model.GoodsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pager != null" >
+      limit #{pager.begin} , #{pager.end}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_goods
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_goods
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.manage.dao.model.GoodsExample" >
+    delete from t_goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.manage.dao.model.Goods" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_goods (id, code, typeId, 
+      brandId, sex, season, 
+      name, img, clickCnt, 
+      status, sortno, productAddress, 
+      material, washWay, shortIntro, 
+      priceJson, specJson, isRecomment, 
+      createTime, updateTime, unit, 
+      standard, stockType, Goods_Season, 
+      browseCnt, goodsYear, styleTypeid, 
+      isDiscount, discount, startTime, 
+      endTime, soldCnt, minPrice, 
+      isnew, intro)
+    values (#{id,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{typeid,jdbcType=BIGINT}, 
+      #{brandid,jdbcType=BIGINT}, #{sex,jdbcType=VARCHAR}, #{season,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{img,jdbcType=VARCHAR}, #{clickcnt,jdbcType=BIGINT}, 
+      #{status,jdbcType=VARCHAR}, #{sortno,jdbcType=INTEGER}, #{productaddress,jdbcType=VARCHAR}, 
+      #{material,jdbcType=VARCHAR}, #{washway,jdbcType=VARCHAR}, #{shortintro,jdbcType=VARCHAR}, 
+      #{pricejson,jdbcType=VARCHAR}, #{specjson,jdbcType=VARCHAR}, #{isrecomment,jdbcType=VARCHAR}, 
+      #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}, #{unit,jdbcType=VARCHAR}, 
+      #{standard,jdbcType=VARCHAR}, #{stocktype,jdbcType=VARCHAR}, #{goodsSeason,jdbcType=VARCHAR}, 
+      #{browsecnt,jdbcType=INTEGER}, #{goodsyear,jdbcType=VARCHAR}, #{styletypeid,jdbcType=BIGINT}, 
+      #{isdiscount,jdbcType=VARCHAR}, #{discount,jdbcType=DOUBLE}, #{starttime,jdbcType=TIMESTAMP}, 
+      #{endtime,jdbcType=TIMESTAMP}, #{soldcnt,jdbcType=INTEGER}, #{minprice,jdbcType=DOUBLE}, 
+      #{isnew,jdbcType=VARCHAR}, #{intro,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.manage.dao.model.Goods" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="typeid != null" >
+        typeId,
+      </if>
+      <if test="brandid != null" >
+        brandId,
+      </if>
+      <if test="sex != null" >
+        sex,
+      </if>
+      <if test="season != null" >
+        season,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="img != null" >
+        img,
+      </if>
+      <if test="clickcnt != null" >
+        clickCnt,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="sortno != null" >
+        sortno,
+      </if>
+      <if test="productaddress != null" >
+        productAddress,
+      </if>
+      <if test="material != null" >
+        material,
+      </if>
+      <if test="washway != null" >
+        washWay,
+      </if>
+      <if test="shortintro != null" >
+        shortIntro,
+      </if>
+      <if test="pricejson != null" >
+        priceJson,
+      </if>
+      <if test="specjson != null" >
+        specJson,
+      </if>
+      <if test="isrecomment != null" >
+        isRecomment,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
+      <if test="unit != null" >
+        unit,
+      </if>
+      <if test="standard != null" >
+        standard,
+      </if>
+      <if test="stocktype != null" >
+        stockType,
+      </if>
+      <if test="goodsSeason != null" >
+        Goods_Season,
+      </if>
+      <if test="browsecnt != null" >
+        browseCnt,
+      </if>
+      <if test="goodsyear != null" >
+        goodsYear,
+      </if>
+      <if test="styletypeid != null" >
+        styleTypeid,
+      </if>
+      <if test="isdiscount != null" >
+        isDiscount,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="starttime != null" >
+        startTime,
+      </if>
+      <if test="endtime != null" >
+        endTime,
+      </if>
+      <if test="soldcnt != null" >
+        soldCnt,
+      </if>
+      <if test="minprice != null" >
+        minPrice,
+      </if>
+      <if test="isnew != null" >
+        isnew,
+      </if>
+      <if test="intro != null" >
+        intro,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="typeid != null" >
+        #{typeid,jdbcType=BIGINT},
+      </if>
+      <if test="brandid != null" >
+        #{brandid,jdbcType=BIGINT},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="season != null" >
+        #{season,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="clickcnt != null" >
+        #{clickcnt,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="sortno != null" >
+        #{sortno,jdbcType=INTEGER},
+      </if>
+      <if test="productaddress != null" >
+        #{productaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="material != null" >
+        #{material,jdbcType=VARCHAR},
+      </if>
+      <if test="washway != null" >
+        #{washway,jdbcType=VARCHAR},
+      </if>
+      <if test="shortintro != null" >
+        #{shortintro,jdbcType=VARCHAR},
+      </if>
+      <if test="pricejson != null" >
+        #{pricejson,jdbcType=VARCHAR},
+      </if>
+      <if test="specjson != null" >
+        #{specjson,jdbcType=VARCHAR},
+      </if>
+      <if test="isrecomment != null" >
+        #{isrecomment,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unit != null" >
+        #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="standard != null" >
+        #{standard,jdbcType=VARCHAR},
+      </if>
+      <if test="stocktype != null" >
+        #{stocktype,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSeason != null" >
+        #{goodsSeason,jdbcType=VARCHAR},
+      </if>
+      <if test="browsecnt != null" >
+        #{browsecnt,jdbcType=INTEGER},
+      </if>
+      <if test="goodsyear != null" >
+        #{goodsyear,jdbcType=VARCHAR},
+      </if>
+      <if test="styletypeid != null" >
+        #{styletypeid,jdbcType=BIGINT},
+      </if>
+      <if test="isdiscount != null" >
+        #{isdiscount,jdbcType=VARCHAR},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DOUBLE},
+      </if>
+      <if test="starttime != null" >
+        #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="soldcnt != null" >
+        #{soldcnt,jdbcType=INTEGER},
+      </if>
+      <if test="minprice != null" >
+        #{minprice,jdbcType=DOUBLE},
+      </if>
+      <if test="isnew != null" >
+        #{isnew,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null" >
+        #{intro,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.manage.dao.model.GoodsExample" resultType="java.lang.Integer" >
+    select count(*) from t_goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_goods
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeid != null" >
+        typeId = #{record.typeid,jdbcType=BIGINT},
+      </if>
+      <if test="record.brandid != null" >
+        brandId = #{record.brandid,jdbcType=BIGINT},
+      </if>
+      <if test="record.sex != null" >
+        sex = #{record.sex,jdbcType=VARCHAR},
+      </if>
+      <if test="record.season != null" >
+        season = #{record.season,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.img != null" >
+        img = #{record.img,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clickcnt != null" >
+        clickCnt = #{record.clickcnt,jdbcType=BIGINT},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sortno != null" >
+        sortno = #{record.sortno,jdbcType=INTEGER},
+      </if>
+      <if test="record.productaddress != null" >
+        productAddress = #{record.productaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.material != null" >
+        material = #{record.material,jdbcType=VARCHAR},
+      </if>
+      <if test="record.washway != null" >
+        washWay = #{record.washway,jdbcType=VARCHAR},
+      </if>
+      <if test="record.shortintro != null" >
+        shortIntro = #{record.shortintro,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pricejson != null" >
+        priceJson = #{record.pricejson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.specjson != null" >
+        specJson = #{record.specjson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isrecomment != null" >
+        isRecomment = #{record.isrecomment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null" >
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.unit != null" >
+        unit = #{record.unit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.standard != null" >
+        standard = #{record.standard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stocktype != null" >
+        stockType = #{record.stocktype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.goodsSeason != null" >
+        Goods_Season = #{record.goodsSeason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.browsecnt != null" >
+        browseCnt = #{record.browsecnt,jdbcType=INTEGER},
+      </if>
+      <if test="record.goodsyear != null" >
+        goodsYear = #{record.goodsyear,jdbcType=VARCHAR},
+      </if>
+      <if test="record.styletypeid != null" >
+        styleTypeid = #{record.styletypeid,jdbcType=BIGINT},
+      </if>
+      <if test="record.isdiscount != null" >
+        isDiscount = #{record.isdiscount,jdbcType=VARCHAR},
+      </if>
+      <if test="record.discount != null" >
+        discount = #{record.discount,jdbcType=DOUBLE},
+      </if>
+      <if test="record.starttime != null" >
+        startTime = #{record.starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endtime != null" >
+        endTime = #{record.endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.soldcnt != null" >
+        soldCnt = #{record.soldcnt,jdbcType=INTEGER},
+      </if>
+      <if test="record.minprice != null" >
+        minPrice = #{record.minprice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.isnew != null" >
+        isnew = #{record.isnew,jdbcType=VARCHAR},
+      </if>
+      <if test="record.intro != null" >
+        intro = #{record.intro,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update t_goods
+    set id = #{record.id,jdbcType=BIGINT},
+      code = #{record.code,jdbcType=VARCHAR},
+      typeId = #{record.typeid,jdbcType=BIGINT},
+      brandId = #{record.brandid,jdbcType=BIGINT},
+      sex = #{record.sex,jdbcType=VARCHAR},
+      season = #{record.season,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      img = #{record.img,jdbcType=VARCHAR},
+      clickCnt = #{record.clickcnt,jdbcType=BIGINT},
+      status = #{record.status,jdbcType=VARCHAR},
+      sortno = #{record.sortno,jdbcType=INTEGER},
+      productAddress = #{record.productaddress,jdbcType=VARCHAR},
+      material = #{record.material,jdbcType=VARCHAR},
+      washWay = #{record.washway,jdbcType=VARCHAR},
+      shortIntro = #{record.shortintro,jdbcType=VARCHAR},
+      priceJson = #{record.pricejson,jdbcType=VARCHAR},
+      specJson = #{record.specjson,jdbcType=VARCHAR},
+      isRecomment = #{record.isrecomment,jdbcType=VARCHAR},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      unit = #{record.unit,jdbcType=VARCHAR},
+      standard = #{record.standard,jdbcType=VARCHAR},
+      stockType = #{record.stocktype,jdbcType=VARCHAR},
+      Goods_Season = #{record.goodsSeason,jdbcType=VARCHAR},
+      browseCnt = #{record.browsecnt,jdbcType=INTEGER},
+      goodsYear = #{record.goodsyear,jdbcType=VARCHAR},
+      styleTypeid = #{record.styletypeid,jdbcType=BIGINT},
+      isDiscount = #{record.isdiscount,jdbcType=VARCHAR},
+      discount = #{record.discount,jdbcType=DOUBLE},
+      startTime = #{record.starttime,jdbcType=TIMESTAMP},
+      endTime = #{record.endtime,jdbcType=TIMESTAMP},
+      soldCnt = #{record.soldcnt,jdbcType=INTEGER},
+      minPrice = #{record.minprice,jdbcType=DOUBLE},
+      isnew = #{record.isnew,jdbcType=VARCHAR},
+      intro = #{record.intro,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_goods
+    set id = #{record.id,jdbcType=BIGINT},
+      code = #{record.code,jdbcType=VARCHAR},
+      typeId = #{record.typeid,jdbcType=BIGINT},
+      brandId = #{record.brandid,jdbcType=BIGINT},
+      sex = #{record.sex,jdbcType=VARCHAR},
+      season = #{record.season,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      img = #{record.img,jdbcType=VARCHAR},
+      clickCnt = #{record.clickcnt,jdbcType=BIGINT},
+      status = #{record.status,jdbcType=VARCHAR},
+      sortno = #{record.sortno,jdbcType=INTEGER},
+      productAddress = #{record.productaddress,jdbcType=VARCHAR},
+      material = #{record.material,jdbcType=VARCHAR},
+      washWay = #{record.washway,jdbcType=VARCHAR},
+      shortIntro = #{record.shortintro,jdbcType=VARCHAR},
+      priceJson = #{record.pricejson,jdbcType=VARCHAR},
+      specJson = #{record.specjson,jdbcType=VARCHAR},
+      isRecomment = #{record.isrecomment,jdbcType=VARCHAR},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      unit = #{record.unit,jdbcType=VARCHAR},
+      standard = #{record.standard,jdbcType=VARCHAR},
+      stockType = #{record.stocktype,jdbcType=VARCHAR},
+      Goods_Season = #{record.goodsSeason,jdbcType=VARCHAR},
+      browseCnt = #{record.browsecnt,jdbcType=INTEGER},
+      goodsYear = #{record.goodsyear,jdbcType=VARCHAR},
+      styleTypeid = #{record.styletypeid,jdbcType=BIGINT},
+      isDiscount = #{record.isdiscount,jdbcType=VARCHAR},
+      discount = #{record.discount,jdbcType=DOUBLE},
+      startTime = #{record.starttime,jdbcType=TIMESTAMP},
+      endTime = #{record.endtime,jdbcType=TIMESTAMP},
+      soldCnt = #{record.soldcnt,jdbcType=INTEGER},
+      minPrice = #{record.minprice,jdbcType=DOUBLE},
+      isnew = #{record.isnew,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.manage.dao.model.Goods" >
+    update t_goods
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="typeid != null" >
+        typeId = #{typeid,jdbcType=BIGINT},
+      </if>
+      <if test="brandid != null" >
+        brandId = #{brandid,jdbcType=BIGINT},
+      </if>
+      <if test="sex != null" >
+        sex = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="season != null" >
+        season = #{season,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="img != null" >
+        img = #{img,jdbcType=VARCHAR},
+      </if>
+      <if test="clickcnt != null" >
+        clickCnt = #{clickcnt,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="sortno != null" >
+        sortno = #{sortno,jdbcType=INTEGER},
+      </if>
+      <if test="productaddress != null" >
+        productAddress = #{productaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="material != null" >
+        material = #{material,jdbcType=VARCHAR},
+      </if>
+      <if test="washway != null" >
+        washWay = #{washway,jdbcType=VARCHAR},
+      </if>
+      <if test="shortintro != null" >
+        shortIntro = #{shortintro,jdbcType=VARCHAR},
+      </if>
+      <if test="pricejson != null" >
+        priceJson = #{pricejson,jdbcType=VARCHAR},
+      </if>
+      <if test="specjson != null" >
+        specJson = #{specjson,jdbcType=VARCHAR},
+      </if>
+      <if test="isrecomment != null" >
+        isRecomment = #{isrecomment,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="unit != null" >
+        unit = #{unit,jdbcType=VARCHAR},
+      </if>
+      <if test="standard != null" >
+        standard = #{standard,jdbcType=VARCHAR},
+      </if>
+      <if test="stocktype != null" >
+        stockType = #{stocktype,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSeason != null" >
+        Goods_Season = #{goodsSeason,jdbcType=VARCHAR},
+      </if>
+      <if test="browsecnt != null" >
+        browseCnt = #{browsecnt,jdbcType=INTEGER},
+      </if>
+      <if test="goodsyear != null" >
+        goodsYear = #{goodsyear,jdbcType=VARCHAR},
+      </if>
+      <if test="styletypeid != null" >
+        styleTypeid = #{styletypeid,jdbcType=BIGINT},
+      </if>
+      <if test="isdiscount != null" >
+        isDiscount = #{isdiscount,jdbcType=VARCHAR},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=DOUBLE},
+      </if>
+      <if test="starttime != null" >
+        startTime = #{starttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endtime != null" >
+        endTime = #{endtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="soldcnt != null" >
+        soldCnt = #{soldcnt,jdbcType=INTEGER},
+      </if>
+      <if test="minprice != null" >
+        minPrice = #{minprice,jdbcType=DOUBLE},
+      </if>
+      <if test="isnew != null" >
+        isnew = #{isnew,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null" >
+        intro = #{intro,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.manage.dao.model.Goods" >
+    update t_goods
+    set code = #{code,jdbcType=VARCHAR},
+      typeId = #{typeid,jdbcType=BIGINT},
+      brandId = #{brandid,jdbcType=BIGINT},
+      sex = #{sex,jdbcType=VARCHAR},
+      season = #{season,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR},
+      clickCnt = #{clickcnt,jdbcType=BIGINT},
+      status = #{status,jdbcType=VARCHAR},
+      sortno = #{sortno,jdbcType=INTEGER},
+      productAddress = #{productaddress,jdbcType=VARCHAR},
+      material = #{material,jdbcType=VARCHAR},
+      washWay = #{washway,jdbcType=VARCHAR},
+      shortIntro = #{shortintro,jdbcType=VARCHAR},
+      priceJson = #{pricejson,jdbcType=VARCHAR},
+      specJson = #{specjson,jdbcType=VARCHAR},
+      isRecomment = #{isrecomment,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      unit = #{unit,jdbcType=VARCHAR},
+      standard = #{standard,jdbcType=VARCHAR},
+      stockType = #{stocktype,jdbcType=VARCHAR},
+      Goods_Season = #{goodsSeason,jdbcType=VARCHAR},
+      browseCnt = #{browsecnt,jdbcType=INTEGER},
+      goodsYear = #{goodsyear,jdbcType=VARCHAR},
+      styleTypeid = #{styletypeid,jdbcType=BIGINT},
+      isDiscount = #{isdiscount,jdbcType=VARCHAR},
+      discount = #{discount,jdbcType=DOUBLE},
+      startTime = #{starttime,jdbcType=TIMESTAMP},
+      endTime = #{endtime,jdbcType=TIMESTAMP},
+      soldCnt = #{soldcnt,jdbcType=INTEGER},
+      minPrice = #{minprice,jdbcType=DOUBLE},
+      isnew = #{isnew,jdbcType=VARCHAR},
+      intro = #{intro,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.manage.dao.model.Goods" >
+    update t_goods
+    set code = #{code,jdbcType=VARCHAR},
+      typeId = #{typeid,jdbcType=BIGINT},
+      brandId = #{brandid,jdbcType=BIGINT},
+      sex = #{sex,jdbcType=VARCHAR},
+      season = #{season,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      img = #{img,jdbcType=VARCHAR},
+      clickCnt = #{clickcnt,jdbcType=BIGINT},
+      status = #{status,jdbcType=VARCHAR},
+      sortno = #{sortno,jdbcType=INTEGER},
+      productAddress = #{productaddress,jdbcType=VARCHAR},
+      material = #{material,jdbcType=VARCHAR},
+      washWay = #{washway,jdbcType=VARCHAR},
+      shortIntro = #{shortintro,jdbcType=VARCHAR},
+      priceJson = #{pricejson,jdbcType=VARCHAR},
+      specJson = #{specjson,jdbcType=VARCHAR},
+      isRecomment = #{isrecomment,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      unit = #{unit,jdbcType=VARCHAR},
+      standard = #{standard,jdbcType=VARCHAR},
+      stockType = #{stocktype,jdbcType=VARCHAR},
+      Goods_Season = #{goodsSeason,jdbcType=VARCHAR},
+      browseCnt = #{browsecnt,jdbcType=INTEGER},
+      goodsYear = #{goodsyear,jdbcType=VARCHAR},
+      styleTypeid = #{styletypeid,jdbcType=BIGINT},
+      isDiscount = #{isdiscount,jdbcType=VARCHAR},
+      discount = #{discount,jdbcType=DOUBLE},
+      startTime = #{starttime,jdbcType=TIMESTAMP},
+      endTime = #{endtime,jdbcType=TIMESTAMP},
+      soldCnt = #{soldcnt,jdbcType=INTEGER},
+      minPrice = #{minprice,jdbcType=DOUBLE},
+      isnew = #{isnew,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

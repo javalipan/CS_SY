@@ -1,0 +1,563 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manage.dao.mapper.RegionMapper" >
+  <resultMap id="BaseResultMap" type="com.manage.dao.model.Region" >
+    <id column="ADDSID" property="addsid" jdbcType="INTEGER" />
+    <result column="code" property="code" jdbcType="INTEGER" />
+    <result column="SuperiorCode" property="superiorcode" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="SMALLINT" />
+    <result column="level" property="level" jdbcType="SMALLINT" />
+    <result column="isProvince" property="isprovince" jdbcType="SMALLINT" />
+    <result column="CityClassify" property="cityclassify" jdbcType="SMALLINT" />
+    <result column="Abb" property="abb" jdbcType="VARCHAR" />
+    <result column="SSP" property="ssp" jdbcType="VARCHAR" />
+    <result column="pinyin" property="pinyin" jdbcType="VARCHAR" />
+    <result column="ProvinceCode" property="provincecode" jdbcType="INTEGER" />
+    <result column="ProvinceName" property="provincename" jdbcType="VARCHAR" />
+    <result column="ProvincePinYin" property="provincepinyin" jdbcType="VARCHAR" />
+    <result column="CityCode" property="citycode" jdbcType="INTEGER" />
+    <result column="CityName" property="cityname" jdbcType="VARCHAR" />
+    <result column="CityPinYin" property="citypinyin" jdbcType="VARCHAR" />
+    <result column="AreaCode" property="areacode" jdbcType="INTEGER" />
+    <result column="AreaName" property="areaname" jdbcType="VARCHAR" />
+    <result column="AreaPinYin" property="areapinyin" jdbcType="VARCHAR" />
+    <result column="Status" property="status" jdbcType="SMALLINT" />
+    <result column="CreateStaff" property="createstaff" jdbcType="INTEGER" />
+    <result column="CreateTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="UpdateStaff" property="updatestaff" jdbcType="INTEGER" />
+    <result column="UpdateTime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="IsDelete" property="isdelete" jdbcType="SMALLINT" />
+    <result column="DES" property="des" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ADDSID, code, SuperiorCode, name, type, level, isProvince, CityClassify, Abb, SSP, 
+    pinyin, ProvinceCode, ProvinceName, ProvincePinYin, CityCode, CityName, CityPinYin, 
+    AreaCode, AreaName, AreaPinYin, Status, CreateStaff, CreateTime, UpdateStaff, UpdateTime, 
+    IsDelete, DES
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.manage.dao.model.RegionExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_region
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pager != null" >
+      limit #{pager.begin} , #{pager.end}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_region
+    where ADDSID = #{addsid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_region
+    where ADDSID = #{addsid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.manage.dao.model.RegionExample" >
+    delete from t_region
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.manage.dao.model.Region" useGeneratedKeys="true" keyProperty="addsid" >
+    insert into t_region (ADDSID, code, SuperiorCode, 
+      name, type, level, 
+      isProvince, CityClassify, Abb, 
+      SSP, pinyin, ProvinceCode, 
+      ProvinceName, ProvincePinYin, CityCode, 
+      CityName, CityPinYin, AreaCode, 
+      AreaName, AreaPinYin, Status, 
+      CreateStaff, CreateTime, UpdateStaff, 
+      UpdateTime, IsDelete, DES
+      )
+    values (#{addsid,jdbcType=INTEGER}, #{code,jdbcType=INTEGER}, #{superiorcode,jdbcType=INTEGER}, 
+      #{name,jdbcType=VARCHAR}, #{type,jdbcType=SMALLINT}, #{level,jdbcType=SMALLINT}, 
+      #{isprovince,jdbcType=SMALLINT}, #{cityclassify,jdbcType=SMALLINT}, #{abb,jdbcType=VARCHAR}, 
+      #{ssp,jdbcType=VARCHAR}, #{pinyin,jdbcType=VARCHAR}, #{provincecode,jdbcType=INTEGER}, 
+      #{provincename,jdbcType=VARCHAR}, #{provincepinyin,jdbcType=VARCHAR}, #{citycode,jdbcType=INTEGER}, 
+      #{cityname,jdbcType=VARCHAR}, #{citypinyin,jdbcType=VARCHAR}, #{areacode,jdbcType=INTEGER}, 
+      #{areaname,jdbcType=VARCHAR}, #{areapinyin,jdbcType=VARCHAR}, #{status,jdbcType=SMALLINT}, 
+      #{createstaff,jdbcType=INTEGER}, #{createtime,jdbcType=TIMESTAMP}, #{updatestaff,jdbcType=INTEGER}, 
+      #{updatetime,jdbcType=TIMESTAMP}, #{isdelete,jdbcType=SMALLINT}, #{des,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.manage.dao.model.Region" useGeneratedKeys="true" keyProperty="addsid" >
+    insert into t_region
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="addsid != null" >
+        ADDSID,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="superiorcode != null" >
+        SuperiorCode,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="isprovince != null" >
+        isProvince,
+      </if>
+      <if test="cityclassify != null" >
+        CityClassify,
+      </if>
+      <if test="abb != null" >
+        Abb,
+      </if>
+      <if test="ssp != null" >
+        SSP,
+      </if>
+      <if test="pinyin != null" >
+        pinyin,
+      </if>
+      <if test="provincecode != null" >
+        ProvinceCode,
+      </if>
+      <if test="provincename != null" >
+        ProvinceName,
+      </if>
+      <if test="provincepinyin != null" >
+        ProvincePinYin,
+      </if>
+      <if test="citycode != null" >
+        CityCode,
+      </if>
+      <if test="cityname != null" >
+        CityName,
+      </if>
+      <if test="citypinyin != null" >
+        CityPinYin,
+      </if>
+      <if test="areacode != null" >
+        AreaCode,
+      </if>
+      <if test="areaname != null" >
+        AreaName,
+      </if>
+      <if test="areapinyin != null" >
+        AreaPinYin,
+      </if>
+      <if test="status != null" >
+        Status,
+      </if>
+      <if test="createstaff != null" >
+        CreateStaff,
+      </if>
+      <if test="createtime != null" >
+        CreateTime,
+      </if>
+      <if test="updatestaff != null" >
+        UpdateStaff,
+      </if>
+      <if test="updatetime != null" >
+        UpdateTime,
+      </if>
+      <if test="isdelete != null" >
+        IsDelete,
+      </if>
+      <if test="des != null" >
+        DES,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="addsid != null" >
+        #{addsid,jdbcType=INTEGER},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=INTEGER},
+      </if>
+      <if test="superiorcode != null" >
+        #{superiorcode,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=SMALLINT},
+      </if>
+      <if test="isprovince != null" >
+        #{isprovince,jdbcType=SMALLINT},
+      </if>
+      <if test="cityclassify != null" >
+        #{cityclassify,jdbcType=SMALLINT},
+      </if>
+      <if test="abb != null" >
+        #{abb,jdbcType=VARCHAR},
+      </if>
+      <if test="ssp != null" >
+        #{ssp,jdbcType=VARCHAR},
+      </if>
+      <if test="pinyin != null" >
+        #{pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="provincecode != null" >
+        #{provincecode,jdbcType=INTEGER},
+      </if>
+      <if test="provincename != null" >
+        #{provincename,jdbcType=VARCHAR},
+      </if>
+      <if test="provincepinyin != null" >
+        #{provincepinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="citycode != null" >
+        #{citycode,jdbcType=INTEGER},
+      </if>
+      <if test="cityname != null" >
+        #{cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="citypinyin != null" >
+        #{citypinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="areacode != null" >
+        #{areacode,jdbcType=INTEGER},
+      </if>
+      <if test="areaname != null" >
+        #{areaname,jdbcType=VARCHAR},
+      </if>
+      <if test="areapinyin != null" >
+        #{areapinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="createstaff != null" >
+        #{createstaff,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatestaff != null" >
+        #{updatestaff,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isdelete != null" >
+        #{isdelete,jdbcType=SMALLINT},
+      </if>
+      <if test="des != null" >
+        #{des,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.manage.dao.model.RegionExample" resultType="java.lang.Integer" >
+    select count(*) from t_region
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_region
+    <set >
+      <if test="record.addsid != null" >
+        ADDSID = #{record.addsid,jdbcType=INTEGER},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=INTEGER},
+      </if>
+      <if test="record.superiorcode != null" >
+        SuperiorCode = #{record.superiorcode,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=SMALLINT},
+      </if>
+      <if test="record.level != null" >
+        level = #{record.level,jdbcType=SMALLINT},
+      </if>
+      <if test="record.isprovince != null" >
+        isProvince = #{record.isprovince,jdbcType=SMALLINT},
+      </if>
+      <if test="record.cityclassify != null" >
+        CityClassify = #{record.cityclassify,jdbcType=SMALLINT},
+      </if>
+      <if test="record.abb != null" >
+        Abb = #{record.abb,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ssp != null" >
+        SSP = #{record.ssp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pinyin != null" >
+        pinyin = #{record.pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provincecode != null" >
+        ProvinceCode = #{record.provincecode,jdbcType=INTEGER},
+      </if>
+      <if test="record.provincename != null" >
+        ProvinceName = #{record.provincename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.provincepinyin != null" >
+        ProvincePinYin = #{record.provincepinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.citycode != null" >
+        CityCode = #{record.citycode,jdbcType=INTEGER},
+      </if>
+      <if test="record.cityname != null" >
+        CityName = #{record.cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.citypinyin != null" >
+        CityPinYin = #{record.citypinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areacode != null" >
+        AreaCode = #{record.areacode,jdbcType=INTEGER},
+      </if>
+      <if test="record.areaname != null" >
+        AreaName = #{record.areaname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areapinyin != null" >
+        AreaPinYin = #{record.areapinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        Status = #{record.status,jdbcType=SMALLINT},
+      </if>
+      <if test="record.createstaff != null" >
+        CreateStaff = #{record.createstaff,jdbcType=INTEGER},
+      </if>
+      <if test="record.createtime != null" >
+        CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatestaff != null" >
+        UpdateStaff = #{record.updatestaff,jdbcType=INTEGER},
+      </if>
+      <if test="record.updatetime != null" >
+        UpdateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isdelete != null" >
+        IsDelete = #{record.isdelete,jdbcType=SMALLINT},
+      </if>
+      <if test="record.des != null" >
+        DES = #{record.des,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_region
+    set ADDSID = #{record.addsid,jdbcType=INTEGER},
+      code = #{record.code,jdbcType=INTEGER},
+      SuperiorCode = #{record.superiorcode,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=SMALLINT},
+      level = #{record.level,jdbcType=SMALLINT},
+      isProvince = #{record.isprovince,jdbcType=SMALLINT},
+      CityClassify = #{record.cityclassify,jdbcType=SMALLINT},
+      Abb = #{record.abb,jdbcType=VARCHAR},
+      SSP = #{record.ssp,jdbcType=VARCHAR},
+      pinyin = #{record.pinyin,jdbcType=VARCHAR},
+      ProvinceCode = #{record.provincecode,jdbcType=INTEGER},
+      ProvinceName = #{record.provincename,jdbcType=VARCHAR},
+      ProvincePinYin = #{record.provincepinyin,jdbcType=VARCHAR},
+      CityCode = #{record.citycode,jdbcType=INTEGER},
+      CityName = #{record.cityname,jdbcType=VARCHAR},
+      CityPinYin = #{record.citypinyin,jdbcType=VARCHAR},
+      AreaCode = #{record.areacode,jdbcType=INTEGER},
+      AreaName = #{record.areaname,jdbcType=VARCHAR},
+      AreaPinYin = #{record.areapinyin,jdbcType=VARCHAR},
+      Status = #{record.status,jdbcType=SMALLINT},
+      CreateStaff = #{record.createstaff,jdbcType=INTEGER},
+      CreateTime = #{record.createtime,jdbcType=TIMESTAMP},
+      UpdateStaff = #{record.updatestaff,jdbcType=INTEGER},
+      UpdateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      IsDelete = #{record.isdelete,jdbcType=SMALLINT},
+      DES = #{record.des,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.manage.dao.model.Region" >
+    update t_region
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=INTEGER},
+      </if>
+      <if test="superiorcode != null" >
+        SuperiorCode = #{superiorcode,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=SMALLINT},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=SMALLINT},
+      </if>
+      <if test="isprovince != null" >
+        isProvince = #{isprovince,jdbcType=SMALLINT},
+      </if>
+      <if test="cityclassify != null" >
+        CityClassify = #{cityclassify,jdbcType=SMALLINT},
+      </if>
+      <if test="abb != null" >
+        Abb = #{abb,jdbcType=VARCHAR},
+      </if>
+      <if test="ssp != null" >
+        SSP = #{ssp,jdbcType=VARCHAR},
+      </if>
+      <if test="pinyin != null" >
+        pinyin = #{pinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="provincecode != null" >
+        ProvinceCode = #{provincecode,jdbcType=INTEGER},
+      </if>
+      <if test="provincename != null" >
+        ProvinceName = #{provincename,jdbcType=VARCHAR},
+      </if>
+      <if test="provincepinyin != null" >
+        ProvincePinYin = #{provincepinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="citycode != null" >
+        CityCode = #{citycode,jdbcType=INTEGER},
+      </if>
+      <if test="cityname != null" >
+        CityName = #{cityname,jdbcType=VARCHAR},
+      </if>
+      <if test="citypinyin != null" >
+        CityPinYin = #{citypinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="areacode != null" >
+        AreaCode = #{areacode,jdbcType=INTEGER},
+      </if>
+      <if test="areaname != null" >
+        AreaName = #{areaname,jdbcType=VARCHAR},
+      </if>
+      <if test="areapinyin != null" >
+        AreaPinYin = #{areapinyin,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        Status = #{status,jdbcType=SMALLINT},
+      </if>
+      <if test="createstaff != null" >
+        CreateStaff = #{createstaff,jdbcType=INTEGER},
+      </if>
+      <if test="createtime != null" >
+        CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatestaff != null" >
+        UpdateStaff = #{updatestaff,jdbcType=INTEGER},
+      </if>
+      <if test="updatetime != null" >
+        UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isdelete != null" >
+        IsDelete = #{isdelete,jdbcType=SMALLINT},
+      </if>
+      <if test="des != null" >
+        DES = #{des,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ADDSID = #{addsid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.manage.dao.model.Region" >
+    update t_region
+    set code = #{code,jdbcType=INTEGER},
+      SuperiorCode = #{superiorcode,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=SMALLINT},
+      level = #{level,jdbcType=SMALLINT},
+      isProvince = #{isprovince,jdbcType=SMALLINT},
+      CityClassify = #{cityclassify,jdbcType=SMALLINT},
+      Abb = #{abb,jdbcType=VARCHAR},
+      SSP = #{ssp,jdbcType=VARCHAR},
+      pinyin = #{pinyin,jdbcType=VARCHAR},
+      ProvinceCode = #{provincecode,jdbcType=INTEGER},
+      ProvinceName = #{provincename,jdbcType=VARCHAR},
+      ProvincePinYin = #{provincepinyin,jdbcType=VARCHAR},
+      CityCode = #{citycode,jdbcType=INTEGER},
+      CityName = #{cityname,jdbcType=VARCHAR},
+      CityPinYin = #{citypinyin,jdbcType=VARCHAR},
+      AreaCode = #{areacode,jdbcType=INTEGER},
+      AreaName = #{areaname,jdbcType=VARCHAR},
+      AreaPinYin = #{areapinyin,jdbcType=VARCHAR},
+      Status = #{status,jdbcType=SMALLINT},
+      CreateStaff = #{createstaff,jdbcType=INTEGER},
+      CreateTime = #{createtime,jdbcType=TIMESTAMP},
+      UpdateStaff = #{updatestaff,jdbcType=INTEGER},
+      UpdateTime = #{updatetime,jdbcType=TIMESTAMP},
+      IsDelete = #{isdelete,jdbcType=SMALLINT},
+      DES = #{des,jdbcType=VARCHAR}
+    where ADDSID = #{addsid,jdbcType=INTEGER}
+  </update>
+</mapper>

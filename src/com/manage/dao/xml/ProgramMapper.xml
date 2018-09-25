@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manage.dao.mapper.ProgramMapper" >
+  <resultMap id="BaseResultMap" type="com.manage.dao.model.Program" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="parentId" property="parentid" jdbcType="BIGINT" />
+    <result column="sortno" property="sortno" jdbcType="BIGINT" />
+    <result column="isSystem" property="issystem" jdbcType="VARCHAR" />
+    <result column="isDelete" property="isdelete" jdbcType="VARCHAR" />
+    <result column="comments" property="comments" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, name, parentId, sortno, isSystem, isDelete, comments, createTime, updateTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.manage.dao.model.ProgramExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_program
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pager != null" >
+      limit #{pager.begin} , #{pager.end}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_program
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_program
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.manage.dao.model.ProgramExample" >
+    delete from t_program
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.manage.dao.model.Program" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_program (id, name, parentId, 
+      sortno, isSystem, isDelete, 
+      comments, createTime, updateTime
+      )
+    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{parentid,jdbcType=BIGINT}, 
+      #{sortno,jdbcType=BIGINT}, #{issystem,jdbcType=VARCHAR}, #{isdelete,jdbcType=VARCHAR}, 
+      #{comments,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.manage.dao.model.Program" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_program
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="parentid != null" >
+        parentId,
+      </if>
+      <if test="sortno != null" >
+        sortno,
+      </if>
+      <if test="issystem != null" >
+        isSystem,
+      </if>
+      <if test="isdelete != null" >
+        isDelete,
+      </if>
+      <if test="comments != null" >
+        comments,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        #{parentid,jdbcType=BIGINT},
+      </if>
+      <if test="sortno != null" >
+        #{sortno,jdbcType=BIGINT},
+      </if>
+      <if test="issystem != null" >
+        #{issystem,jdbcType=VARCHAR},
+      </if>
+      <if test="isdelete != null" >
+        #{isdelete,jdbcType=VARCHAR},
+      </if>
+      <if test="comments != null" >
+        #{comments,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.manage.dao.model.ProgramExample" resultType="java.lang.Integer" >
+    select count(*) from t_program
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_program
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentid != null" >
+        parentId = #{record.parentid,jdbcType=BIGINT},
+      </if>
+      <if test="record.sortno != null" >
+        sortno = #{record.sortno,jdbcType=BIGINT},
+      </if>
+      <if test="record.issystem != null" >
+        isSystem = #{record.issystem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isdelete != null" >
+        isDelete = #{record.isdelete,jdbcType=VARCHAR},
+      </if>
+      <if test="record.comments != null" >
+        comments = #{record.comments,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null" >
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_program
+    set id = #{record.id,jdbcType=BIGINT},
+      name = #{record.name,jdbcType=VARCHAR},
+      parentId = #{record.parentid,jdbcType=BIGINT},
+      sortno = #{record.sortno,jdbcType=BIGINT},
+      isSystem = #{record.issystem,jdbcType=VARCHAR},
+      isDelete = #{record.isdelete,jdbcType=VARCHAR},
+      comments = #{record.comments,jdbcType=VARCHAR},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.manage.dao.model.Program" >
+    update t_program
+    <set >
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="parentid != null" >
+        parentId = #{parentid,jdbcType=BIGINT},
+      </if>
+      <if test="sortno != null" >
+        sortno = #{sortno,jdbcType=BIGINT},
+      </if>
+      <if test="issystem != null" >
+        isSystem = #{issystem,jdbcType=VARCHAR},
+      </if>
+      <if test="isdelete != null" >
+        isDelete = #{isdelete,jdbcType=VARCHAR},
+      </if>
+      <if test="comments != null" >
+        comments = #{comments,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.manage.dao.model.Program" >
+    update t_program
+    set name = #{name,jdbcType=VARCHAR},
+      parentId = #{parentid,jdbcType=BIGINT},
+      sortno = #{sortno,jdbcType=BIGINT},
+      isSystem = #{issystem,jdbcType=VARCHAR},
+      isDelete = #{isdelete,jdbcType=VARCHAR},
+      comments = #{comments,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

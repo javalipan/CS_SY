@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manage.dao.mapper.OrderMapper" >
+  <resultMap id="BaseResultMap" type="com.manage.dao.model.Order" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="memberId" property="memberid" jdbcType="BIGINT" />
+    <result column="modifyUser" property="modifyuser" jdbcType="VARCHAR" />
+    <result column="priceModified" property="pricemodified" jdbcType="VARCHAR" />
+    <result column="oldPrice" property="oldprice" jdbcType="DOUBLE" />
+    <result column="discount" property="discount" jdbcType="DOUBLE" />
+    <result column="integralPrice" property="integralprice" jdbcType="DOUBLE" />
+    <result column="totalPrice" property="totalprice" jdbcType="DOUBLE" />
+    <result column="isPay" property="ispay" jdbcType="VARCHAR" />
+    <result column="isSend" property="issend" jdbcType="VARCHAR" />
+    <result column="isReceive" property="isreceive" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="delWay" property="delway" jdbcType="VARCHAR" />
+    <result column="getTime" property="gettime" jdbcType="TIMESTAMP" />
+    <result column="reveiveName" property="reveivename" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="orderTime" property="ordertime" jdbcType="TIMESTAMP" />
+    <result column="payway" property="payway" jdbcType="VARCHAR" />
+    <result column="payTime" property="paytime" jdbcType="TIMESTAMP" />
+    <result column="sendTime" property="sendtime" jdbcType="TIMESTAMP" />
+    <result column="receiveTime" property="receivetime" jdbcType="TIMESTAMP" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="integral" property="integral" jdbcType="INTEGER" />
+    <result column="balancePay" property="balancepay" jdbcType="DOUBLE" />
+    <result column="userCoupons" property="usercoupons" jdbcType="VARCHAR" />
+    <result column="couponsPay" property="couponspay" jdbcType="INTEGER" />
+    <result column="subtractMoney" property="subtractmoney" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, code, type, memberId, modifyUser, priceModified, oldPrice, discount, integralPrice, 
+    totalPrice, isPay, isSend, isReceive, remark, delWay, getTime, reveiveName, phone, 
+    address, orderTime, payway, payTime, sendTime, receiveTime, status, integral, balancePay, 
+    userCoupons, couponsPay, subtractMoney
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.manage.dao.model.OrderExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pager != null" >
+      limit #{pager.begin} , #{pager.end}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.manage.dao.model.OrderExample" >
+    delete from t_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.manage.dao.model.Order" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_order (id, code, type, 
+      memberId, modifyUser, priceModified, 
+      oldPrice, discount, integralPrice, 
+      totalPrice, isPay, isSend, 
+      isReceive, remark, delWay, 
+      getTime, reveiveName, phone, 
+      address, orderTime, payway, 
+      payTime, sendTime, receiveTime, 
+      status, integral, balancePay, 
+      userCoupons, couponsPay, subtractMoney
+      )
+    values (#{id,jdbcType=BIGINT}, #{code,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{memberid,jdbcType=BIGINT}, #{modifyuser,jdbcType=VARCHAR}, #{pricemodified,jdbcType=VARCHAR}, 
+      #{oldprice,jdbcType=DOUBLE}, #{discount,jdbcType=DOUBLE}, #{integralprice,jdbcType=DOUBLE}, 
+      #{totalprice,jdbcType=DOUBLE}, #{ispay,jdbcType=VARCHAR}, #{issend,jdbcType=VARCHAR}, 
+      #{isreceive,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{delway,jdbcType=VARCHAR}, 
+      #{gettime,jdbcType=TIMESTAMP}, #{reveivename,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{ordertime,jdbcType=TIMESTAMP}, #{payway,jdbcType=VARCHAR}, 
+      #{paytime,jdbcType=TIMESTAMP}, #{sendtime,jdbcType=TIMESTAMP}, #{receivetime,jdbcType=TIMESTAMP}, 
+      #{status,jdbcType=VARCHAR}, #{integral,jdbcType=INTEGER}, #{balancepay,jdbcType=DOUBLE}, 
+      #{usercoupons,jdbcType=VARCHAR}, #{couponspay,jdbcType=INTEGER}, #{subtractmoney,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.manage.dao.model.Order" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="memberid != null" >
+        memberId,
+      </if>
+      <if test="modifyuser != null" >
+        modifyUser,
+      </if>
+      <if test="pricemodified != null" >
+        priceModified,
+      </if>
+      <if test="oldprice != null" >
+        oldPrice,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="integralprice != null" >
+        integralPrice,
+      </if>
+      <if test="totalprice != null" >
+        totalPrice,
+      </if>
+      <if test="ispay != null" >
+        isPay,
+      </if>
+      <if test="issend != null" >
+        isSend,
+      </if>
+      <if test="isreceive != null" >
+        isReceive,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="delway != null" >
+        delWay,
+      </if>
+      <if test="gettime != null" >
+        getTime,
+      </if>
+      <if test="reveivename != null" >
+        reveiveName,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="ordertime != null" >
+        orderTime,
+      </if>
+      <if test="payway != null" >
+        payway,
+      </if>
+      <if test="paytime != null" >
+        payTime,
+      </if>
+      <if test="sendtime != null" >
+        sendTime,
+      </if>
+      <if test="receivetime != null" >
+        receiveTime,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="integral != null" >
+        integral,
+      </if>
+      <if test="balancepay != null" >
+        balancePay,
+      </if>
+      <if test="usercoupons != null" >
+        userCoupons,
+      </if>
+      <if test="couponspay != null" >
+        couponsPay,
+      </if>
+      <if test="subtractmoney != null" >
+        subtractMoney,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="memberid != null" >
+        #{memberid,jdbcType=BIGINT},
+      </if>
+      <if test="modifyuser != null" >
+        #{modifyuser,jdbcType=VARCHAR},
+      </if>
+      <if test="pricemodified != null" >
+        #{pricemodified,jdbcType=VARCHAR},
+      </if>
+      <if test="oldprice != null" >
+        #{oldprice,jdbcType=DOUBLE},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DOUBLE},
+      </if>
+      <if test="integralprice != null" >
+        #{integralprice,jdbcType=DOUBLE},
+      </if>
+      <if test="totalprice != null" >
+        #{totalprice,jdbcType=DOUBLE},
+      </if>
+      <if test="ispay != null" >
+        #{ispay,jdbcType=VARCHAR},
+      </if>
+      <if test="issend != null" >
+        #{issend,jdbcType=VARCHAR},
+      </if>
+      <if test="isreceive != null" >
+        #{isreceive,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="delway != null" >
+        #{delway,jdbcType=VARCHAR},
+      </if>
+      <if test="gettime != null" >
+        #{gettime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reveivename != null" >
+        #{reveivename,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertime != null" >
+        #{ordertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payway != null" >
+        #{payway,jdbcType=VARCHAR},
+      </if>
+      <if test="paytime != null" >
+        #{paytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendtime != null" >
+        #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receivetime != null" >
+        #{receivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="integral != null" >
+        #{integral,jdbcType=INTEGER},
+      </if>
+      <if test="balancepay != null" >
+        #{balancepay,jdbcType=DOUBLE},
+      </if>
+      <if test="usercoupons != null" >
+        #{usercoupons,jdbcType=VARCHAR},
+      </if>
+      <if test="couponspay != null" >
+        #{couponspay,jdbcType=INTEGER},
+      </if>
+      <if test="subtractmoney != null" >
+        #{subtractmoney,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.manage.dao.model.OrderExample" resultType="java.lang.Integer" >
+    select count(*) from t_order
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_order
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.memberid != null" >
+        memberId = #{record.memberid,jdbcType=BIGINT},
+      </if>
+      <if test="record.modifyuser != null" >
+        modifyUser = #{record.modifyuser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pricemodified != null" >
+        priceModified = #{record.pricemodified,jdbcType=VARCHAR},
+      </if>
+      <if test="record.oldprice != null" >
+        oldPrice = #{record.oldprice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.discount != null" >
+        discount = #{record.discount,jdbcType=DOUBLE},
+      </if>
+      <if test="record.integralprice != null" >
+        integralPrice = #{record.integralprice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.totalprice != null" >
+        totalPrice = #{record.totalprice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.ispay != null" >
+        isPay = #{record.ispay,jdbcType=VARCHAR},
+      </if>
+      <if test="record.issend != null" >
+        isSend = #{record.issend,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isreceive != null" >
+        isReceive = #{record.isreceive,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.delway != null" >
+        delWay = #{record.delway,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gettime != null" >
+        getTime = #{record.gettime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.reveivename != null" >
+        reveiveName = #{record.reveivename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phone != null" >
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ordertime != null" >
+        orderTime = #{record.ordertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.payway != null" >
+        payway = #{record.payway,jdbcType=VARCHAR},
+      </if>
+      <if test="record.paytime != null" >
+        payTime = #{record.paytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sendtime != null" >
+        sendTime = #{record.sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.receivetime != null" >
+        receiveTime = #{record.receivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.integral != null" >
+        integral = #{record.integral,jdbcType=INTEGER},
+      </if>
+      <if test="record.balancepay != null" >
+        balancePay = #{record.balancepay,jdbcType=DOUBLE},
+      </if>
+      <if test="record.usercoupons != null" >
+        userCoupons = #{record.usercoupons,jdbcType=VARCHAR},
+      </if>
+      <if test="record.couponspay != null" >
+        couponsPay = #{record.couponspay,jdbcType=INTEGER},
+      </if>
+      <if test="record.subtractmoney != null" >
+        subtractMoney = #{record.subtractmoney,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_order
+    set id = #{record.id,jdbcType=BIGINT},
+      code = #{record.code,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      memberId = #{record.memberid,jdbcType=BIGINT},
+      modifyUser = #{record.modifyuser,jdbcType=VARCHAR},
+      priceModified = #{record.pricemodified,jdbcType=VARCHAR},
+      oldPrice = #{record.oldprice,jdbcType=DOUBLE},
+      discount = #{record.discount,jdbcType=DOUBLE},
+      integralPrice = #{record.integralprice,jdbcType=DOUBLE},
+      totalPrice = #{record.totalprice,jdbcType=DOUBLE},
+      isPay = #{record.ispay,jdbcType=VARCHAR},
+      isSend = #{record.issend,jdbcType=VARCHAR},
+      isReceive = #{record.isreceive,jdbcType=VARCHAR},
+      remark = #{record.remark,jdbcType=VARCHAR},
+      delWay = #{record.delway,jdbcType=VARCHAR},
+      getTime = #{record.gettime,jdbcType=TIMESTAMP},
+      reveiveName = #{record.reveivename,jdbcType=VARCHAR},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      orderTime = #{record.ordertime,jdbcType=TIMESTAMP},
+      payway = #{record.payway,jdbcType=VARCHAR},
+      payTime = #{record.paytime,jdbcType=TIMESTAMP},
+      sendTime = #{record.sendtime,jdbcType=TIMESTAMP},
+      receiveTime = #{record.receivetime,jdbcType=TIMESTAMP},
+      status = #{record.status,jdbcType=VARCHAR},
+      integral = #{record.integral,jdbcType=INTEGER},
+      balancePay = #{record.balancepay,jdbcType=DOUBLE},
+      userCoupons = #{record.usercoupons,jdbcType=VARCHAR},
+      couponsPay = #{record.couponspay,jdbcType=INTEGER},
+      subtractMoney = #{record.subtractmoney,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.manage.dao.model.Order" >
+    update t_order
+    <set >
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="memberid != null" >
+        memberId = #{memberid,jdbcType=BIGINT},
+      </if>
+      <if test="modifyuser != null" >
+        modifyUser = #{modifyuser,jdbcType=VARCHAR},
+      </if>
+      <if test="pricemodified != null" >
+        priceModified = #{pricemodified,jdbcType=VARCHAR},
+      </if>
+      <if test="oldprice != null" >
+        oldPrice = #{oldprice,jdbcType=DOUBLE},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=DOUBLE},
+      </if>
+      <if test="integralprice != null" >
+        integralPrice = #{integralprice,jdbcType=DOUBLE},
+      </if>
+      <if test="totalprice != null" >
+        totalPrice = #{totalprice,jdbcType=DOUBLE},
+      </if>
+      <if test="ispay != null" >
+        isPay = #{ispay,jdbcType=VARCHAR},
+      </if>
+      <if test="issend != null" >
+        isSend = #{issend,jdbcType=VARCHAR},
+      </if>
+      <if test="isreceive != null" >
+        isReceive = #{isreceive,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="delway != null" >
+        delWay = #{delway,jdbcType=VARCHAR},
+      </if>
+      <if test="gettime != null" >
+        getTime = #{gettime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="reveivename != null" >
+        reveiveName = #{reveivename,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="ordertime != null" >
+        orderTime = #{ordertime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payway != null" >
+        payway = #{payway,jdbcType=VARCHAR},
+      </if>
+      <if test="paytime != null" >
+        payTime = #{paytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sendtime != null" >
+        sendTime = #{sendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="receivetime != null" >
+        receiveTime = #{receivetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="integral != null" >
+        integral = #{integral,jdbcType=INTEGER},
+      </if>
+      <if test="balancepay != null" >
+        balancePay = #{balancepay,jdbcType=DOUBLE},
+      </if>
+      <if test="usercoupons != null" >
+        userCoupons = #{usercoupons,jdbcType=VARCHAR},
+      </if>
+      <if test="couponspay != null" >
+        couponsPay = #{couponspay,jdbcType=INTEGER},
+      </if>
+      <if test="subtractmoney != null" >
+        subtractMoney = #{subtractmoney,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.manage.dao.model.Order" >
+    update t_order
+    set code = #{code,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      memberId = #{memberid,jdbcType=BIGINT},
+      modifyUser = #{modifyuser,jdbcType=VARCHAR},
+      priceModified = #{pricemodified,jdbcType=VARCHAR},
+      oldPrice = #{oldprice,jdbcType=DOUBLE},
+      discount = #{discount,jdbcType=DOUBLE},
+      integralPrice = #{integralprice,jdbcType=DOUBLE},
+      totalPrice = #{totalprice,jdbcType=DOUBLE},
+      isPay = #{ispay,jdbcType=VARCHAR},
+      isSend = #{issend,jdbcType=VARCHAR},
+      isReceive = #{isreceive,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR},
+      delWay = #{delway,jdbcType=VARCHAR},
+      getTime = #{gettime,jdbcType=TIMESTAMP},
+      reveiveName = #{reveivename,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      orderTime = #{ordertime,jdbcType=TIMESTAMP},
+      payway = #{payway,jdbcType=VARCHAR},
+      payTime = #{paytime,jdbcType=TIMESTAMP},
+      sendTime = #{sendtime,jdbcType=TIMESTAMP},
+      receiveTime = #{receivetime,jdbcType=TIMESTAMP},
+      status = #{status,jdbcType=VARCHAR},
+      integral = #{integral,jdbcType=INTEGER},
+      balancePay = #{balancepay,jdbcType=DOUBLE},
+      userCoupons = #{usercoupons,jdbcType=VARCHAR},
+      couponsPay = #{couponspay,jdbcType=INTEGER},
+      subtractMoney = #{subtractmoney,jdbcType=INTEGER}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

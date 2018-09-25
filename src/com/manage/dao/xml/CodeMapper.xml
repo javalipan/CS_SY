@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manage.dao.mapper.CodeMapper" >
+  <resultMap id="BaseResultMap" type="com.manage.dao.model.Code" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="typeCode" property="typecode" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="typeName" property="typename" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="nameSimple" property="namesimple" jdbcType="VARCHAR" />
+    <result column="sortno" property="sortno" jdbcType="BIGINT" />
+    <result column="parentId" property="parentid" jdbcType="VARCHAR" />
+    <result column="comments" property="comments" jdbcType="VARCHAR" />
+    <result column="isVoid" property="isvoid" jdbcType="VARCHAR" />
+    <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
+    <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, typeCode, code, typeName, name, nameSimple, sortno, parentId, comments, isVoid, 
+    createTime, updateTime
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.manage.dao.model.CodeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_code
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pager != null" >
+      limit #{pager.begin} , #{pager.end}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_code
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_code
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.manage.dao.model.CodeExample" >
+    delete from t_code
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.manage.dao.model.Code" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_code (id, typeCode, code, 
+      typeName, name, nameSimple, 
+      sortno, parentId, comments, 
+      isVoid, createTime, updateTime
+      )
+    values (#{id,jdbcType=BIGINT}, #{typecode,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, 
+      #{typename,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{namesimple,jdbcType=VARCHAR}, 
+      #{sortno,jdbcType=BIGINT}, #{parentid,jdbcType=VARCHAR}, #{comments,jdbcType=VARCHAR}, 
+      #{isvoid,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{updatetime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.manage.dao.model.Code" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_code
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="typecode != null" >
+        typeCode,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="typename != null" >
+        typeName,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="namesimple != null" >
+        nameSimple,
+      </if>
+      <if test="sortno != null" >
+        sortno,
+      </if>
+      <if test="parentid != null" >
+        parentId,
+      </if>
+      <if test="comments != null" >
+        comments,
+      </if>
+      <if test="isvoid != null" >
+        isVoid,
+      </if>
+      <if test="createtime != null" >
+        createTime,
+      </if>
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="typecode != null" >
+        #{typecode,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="typename != null" >
+        #{typename,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="namesimple != null" >
+        #{namesimple,jdbcType=VARCHAR},
+      </if>
+      <if test="sortno != null" >
+        #{sortno,jdbcType=BIGINT},
+      </if>
+      <if test="parentid != null" >
+        #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="comments != null" >
+        #{comments,jdbcType=VARCHAR},
+      </if>
+      <if test="isvoid != null" >
+        #{isvoid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.manage.dao.model.CodeExample" resultType="java.lang.Integer" >
+    select count(*) from t_code
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_code
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.typecode != null" >
+        typeCode = #{record.typecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typename != null" >
+        typeName = #{record.typename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.namesimple != null" >
+        nameSimple = #{record.namesimple,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sortno != null" >
+        sortno = #{record.sortno,jdbcType=BIGINT},
+      </if>
+      <if test="record.parentid != null" >
+        parentId = #{record.parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.comments != null" >
+        comments = #{record.comments,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isvoid != null" >
+        isVoid = #{record.isvoid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null" >
+        createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatetime != null" >
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_code
+    set id = #{record.id,jdbcType=BIGINT},
+      typeCode = #{record.typecode,jdbcType=VARCHAR},
+      code = #{record.code,jdbcType=VARCHAR},
+      typeName = #{record.typename,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      nameSimple = #{record.namesimple,jdbcType=VARCHAR},
+      sortno = #{record.sortno,jdbcType=BIGINT},
+      parentId = #{record.parentid,jdbcType=VARCHAR},
+      comments = #{record.comments,jdbcType=VARCHAR},
+      isVoid = #{record.isvoid,jdbcType=VARCHAR},
+      createTime = #{record.createtime,jdbcType=TIMESTAMP},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.manage.dao.model.Code" >
+    update t_code
+    <set >
+      <if test="typecode != null" >
+        typeCode = #{typecode,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="typename != null" >
+        typeName = #{typename,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="namesimple != null" >
+        nameSimple = #{namesimple,jdbcType=VARCHAR},
+      </if>
+      <if test="sortno != null" >
+        sortno = #{sortno,jdbcType=BIGINT},
+      </if>
+      <if test="parentid != null" >
+        parentId = #{parentid,jdbcType=VARCHAR},
+      </if>
+      <if test="comments != null" >
+        comments = #{comments,jdbcType=VARCHAR},
+      </if>
+      <if test="isvoid != null" >
+        isVoid = #{isvoid,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createTime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.manage.dao.model.Code" >
+    update t_code
+    set typeCode = #{typecode,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      typeName = #{typename,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      nameSimple = #{namesimple,jdbcType=VARCHAR},
+      sortno = #{sortno,jdbcType=BIGINT},
+      parentId = #{parentid,jdbcType=VARCHAR},
+      comments = #{comments,jdbcType=VARCHAR},
+      isVoid = #{isvoid,jdbcType=VARCHAR},
+      createTime = #{createtime,jdbcType=TIMESTAMP},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

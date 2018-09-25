@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manage.dao.mapper.GoodsDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.manage.dao.model.GoodsDetail" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="goodsId" property="goodsid" jdbcType="BIGINT" />
+    <result column="detailcode" property="detailcode" jdbcType="VARCHAR" />
+    <result column="sizeId" property="sizeid" jdbcType="BIGINT" />
+    <result column="colorId" property="colorid" jdbcType="BIGINT" />
+    <result column="specId3" property="specid3" jdbcType="BIGINT" />
+    <result column="specId4" property="specid4" jdbcType="BIGINT" />
+    <result column="costPrice" property="costprice" jdbcType="DOUBLE" />
+    <result column="oldPrice" property="oldprice" jdbcType="DOUBLE" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="vipPrice" property="vipprice" jdbcType="DOUBLE" />
+    <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="updateTime" property="updatetime" jdbcType="TIMESTAMP" />
+    <result column="sortno" property="sortno" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, goodsId, detailcode, sizeId, colorId, specId3, specId4, costPrice, oldPrice, 
+    price, vipPrice, amount, status, updateTime, sortno
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.manage.dao.model.GoodsDetailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_goods_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pager != null" >
+      limit #{pager.begin} , #{pager.end}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_goods_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_goods_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.manage.dao.model.GoodsDetailExample" >
+    delete from t_goods_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.manage.dao.model.GoodsDetail" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_goods_detail (id, goodsId, detailcode, 
+      sizeId, colorId, specId3, 
+      specId4, costPrice, oldPrice, 
+      price, vipPrice, amount, 
+      status, updateTime, sortno
+      )
+    values (#{id,jdbcType=BIGINT}, #{goodsid,jdbcType=BIGINT}, #{detailcode,jdbcType=VARCHAR}, 
+      #{sizeid,jdbcType=BIGINT}, #{colorid,jdbcType=BIGINT}, #{specid3,jdbcType=BIGINT}, 
+      #{specid4,jdbcType=BIGINT}, #{costprice,jdbcType=DOUBLE}, #{oldprice,jdbcType=DOUBLE}, 
+      #{price,jdbcType=DOUBLE}, #{vipprice,jdbcType=DOUBLE}, #{amount,jdbcType=INTEGER}, 
+      #{status,jdbcType=VARCHAR}, #{updatetime,jdbcType=TIMESTAMP}, #{sortno,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.manage.dao.model.GoodsDetail" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_goods_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="goodsid != null" >
+        goodsId,
+      </if>
+      <if test="detailcode != null" >
+        detailcode,
+      </if>
+      <if test="sizeid != null" >
+        sizeId,
+      </if>
+      <if test="colorid != null" >
+        colorId,
+      </if>
+      <if test="specid3 != null" >
+        specId3,
+      </if>
+      <if test="specid4 != null" >
+        specId4,
+      </if>
+      <if test="costprice != null" >
+        costPrice,
+      </if>
+      <if test="oldprice != null" >
+        oldPrice,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="vipprice != null" >
+        vipPrice,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="updatetime != null" >
+        updateTime,
+      </if>
+      <if test="sortno != null" >
+        sortno,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="goodsid != null" >
+        #{goodsid,jdbcType=BIGINT},
+      </if>
+      <if test="detailcode != null" >
+        #{detailcode,jdbcType=VARCHAR},
+      </if>
+      <if test="sizeid != null" >
+        #{sizeid,jdbcType=BIGINT},
+      </if>
+      <if test="colorid != null" >
+        #{colorid,jdbcType=BIGINT},
+      </if>
+      <if test="specid3 != null" >
+        #{specid3,jdbcType=BIGINT},
+      </if>
+      <if test="specid4 != null" >
+        #{specid4,jdbcType=BIGINT},
+      </if>
+      <if test="costprice != null" >
+        #{costprice,jdbcType=DOUBLE},
+      </if>
+      <if test="oldprice != null" >
+        #{oldprice,jdbcType=DOUBLE},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="vipprice != null" >
+        #{vipprice,jdbcType=DOUBLE},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sortno != null" >
+        #{sortno,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.manage.dao.model.GoodsDetailExample" resultType="java.lang.Integer" >
+    select count(*) from t_goods_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_goods_detail
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.goodsid != null" >
+        goodsId = #{record.goodsid,jdbcType=BIGINT},
+      </if>
+      <if test="record.detailcode != null" >
+        detailcode = #{record.detailcode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sizeid != null" >
+        sizeId = #{record.sizeid,jdbcType=BIGINT},
+      </if>
+      <if test="record.colorid != null" >
+        colorId = #{record.colorid,jdbcType=BIGINT},
+      </if>
+      <if test="record.specid3 != null" >
+        specId3 = #{record.specid3,jdbcType=BIGINT},
+      </if>
+      <if test="record.specid4 != null" >
+        specId4 = #{record.specid4,jdbcType=BIGINT},
+      </if>
+      <if test="record.costprice != null" >
+        costPrice = #{record.costprice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.oldprice != null" >
+        oldPrice = #{record.oldprice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=DOUBLE},
+      </if>
+      <if test="record.vipprice != null" >
+        vipPrice = #{record.vipprice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.amount != null" >
+        amount = #{record.amount,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatetime != null" >
+        updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.sortno != null" >
+        sortno = #{record.sortno,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_goods_detail
+    set id = #{record.id,jdbcType=BIGINT},
+      goodsId = #{record.goodsid,jdbcType=BIGINT},
+      detailcode = #{record.detailcode,jdbcType=VARCHAR},
+      sizeId = #{record.sizeid,jdbcType=BIGINT},
+      colorId = #{record.colorid,jdbcType=BIGINT},
+      specId3 = #{record.specid3,jdbcType=BIGINT},
+      specId4 = #{record.specid4,jdbcType=BIGINT},
+      costPrice = #{record.costprice,jdbcType=DOUBLE},
+      oldPrice = #{record.oldprice,jdbcType=DOUBLE},
+      price = #{record.price,jdbcType=DOUBLE},
+      vipPrice = #{record.vipprice,jdbcType=DOUBLE},
+      amount = #{record.amount,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=VARCHAR},
+      updateTime = #{record.updatetime,jdbcType=TIMESTAMP},
+      sortno = #{record.sortno,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.manage.dao.model.GoodsDetail" >
+    update t_goods_detail
+    <set >
+      <if test="goodsid != null" >
+        goodsId = #{goodsid,jdbcType=BIGINT},
+      </if>
+      <if test="detailcode != null" >
+        detailcode = #{detailcode,jdbcType=VARCHAR},
+      </if>
+      <if test="sizeid != null" >
+        sizeId = #{sizeid,jdbcType=BIGINT},
+      </if>
+      <if test="colorid != null" >
+        colorId = #{colorid,jdbcType=BIGINT},
+      </if>
+      <if test="specid3 != null" >
+        specId3 = #{specid3,jdbcType=BIGINT},
+      </if>
+      <if test="specid4 != null" >
+        specId4 = #{specid4,jdbcType=BIGINT},
+      </if>
+      <if test="costprice != null" >
+        costPrice = #{costprice,jdbcType=DOUBLE},
+      </if>
+      <if test="oldprice != null" >
+        oldPrice = #{oldprice,jdbcType=DOUBLE},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="vipprice != null" >
+        vipPrice = #{vipprice,jdbcType=DOUBLE},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sortno != null" >
+        sortno = #{sortno,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.manage.dao.model.GoodsDetail" >
+    update t_goods_detail
+    set goodsId = #{goodsid,jdbcType=BIGINT},
+      detailcode = #{detailcode,jdbcType=VARCHAR},
+      sizeId = #{sizeid,jdbcType=BIGINT},
+      colorId = #{colorid,jdbcType=BIGINT},
+      specId3 = #{specid3,jdbcType=BIGINT},
+      specId4 = #{specid4,jdbcType=BIGINT},
+      costPrice = #{costprice,jdbcType=DOUBLE},
+      oldPrice = #{oldprice,jdbcType=DOUBLE},
+      price = #{price,jdbcType=DOUBLE},
+      vipPrice = #{vipprice,jdbcType=DOUBLE},
+      amount = #{amount,jdbcType=INTEGER},
+      status = #{status,jdbcType=VARCHAR},
+      updateTime = #{updatetime,jdbcType=TIMESTAMP},
+      sortno = #{sortno,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

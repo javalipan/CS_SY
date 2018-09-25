@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manage.dao.mapper.MemberLabelMapper" >
+  <resultMap id="BaseResultMap" type="com.manage.dao.model.MemberLabel" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="memberId" property="memberid" jdbcType="BIGINT" />
+    <result column="typeCode" property="typecode" jdbcType="VARCHAR" />
+    <result column="typeName" property="typename" jdbcType="VARCHAR" />
+    <result column="labelName" property="labelname" jdbcType="VARCHAR" />
+    <result column="isSystem" property="issystem" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, memberId, typeCode, typeName, labelName, isSystem
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.manage.dao.model.MemberLabelExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_member_label
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pager != null" >
+      limit #{pager.begin} , #{pager.end}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_member_label
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_member_label
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.manage.dao.model.MemberLabelExample" >
+    delete from t_member_label
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.manage.dao.model.MemberLabel" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_member_label (id, memberId, typeCode, 
+      typeName, labelName, isSystem
+      )
+    values (#{id,jdbcType=BIGINT}, #{memberid,jdbcType=BIGINT}, #{typecode,jdbcType=VARCHAR}, 
+      #{typename,jdbcType=VARCHAR}, #{labelname,jdbcType=VARCHAR}, #{issystem,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.manage.dao.model.MemberLabel" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_member_label
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="memberid != null" >
+        memberId,
+      </if>
+      <if test="typecode != null" >
+        typeCode,
+      </if>
+      <if test="typename != null" >
+        typeName,
+      </if>
+      <if test="labelname != null" >
+        labelName,
+      </if>
+      <if test="issystem != null" >
+        isSystem,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="memberid != null" >
+        #{memberid,jdbcType=BIGINT},
+      </if>
+      <if test="typecode != null" >
+        #{typecode,jdbcType=VARCHAR},
+      </if>
+      <if test="typename != null" >
+        #{typename,jdbcType=VARCHAR},
+      </if>
+      <if test="labelname != null" >
+        #{labelname,jdbcType=VARCHAR},
+      </if>
+      <if test="issystem != null" >
+        #{issystem,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.manage.dao.model.MemberLabelExample" resultType="java.lang.Integer" >
+    select count(*) from t_member_label
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_member_label
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.memberid != null" >
+        memberId = #{record.memberid,jdbcType=BIGINT},
+      </if>
+      <if test="record.typecode != null" >
+        typeCode = #{record.typecode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typename != null" >
+        typeName = #{record.typename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.labelname != null" >
+        labelName = #{record.labelname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.issystem != null" >
+        isSystem = #{record.issystem,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_member_label
+    set id = #{record.id,jdbcType=BIGINT},
+      memberId = #{record.memberid,jdbcType=BIGINT},
+      typeCode = #{record.typecode,jdbcType=VARCHAR},
+      typeName = #{record.typename,jdbcType=VARCHAR},
+      labelName = #{record.labelname,jdbcType=VARCHAR},
+      isSystem = #{record.issystem,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.manage.dao.model.MemberLabel" >
+    update t_member_label
+    <set >
+      <if test="memberid != null" >
+        memberId = #{memberid,jdbcType=BIGINT},
+      </if>
+      <if test="typecode != null" >
+        typeCode = #{typecode,jdbcType=VARCHAR},
+      </if>
+      <if test="typename != null" >
+        typeName = #{typename,jdbcType=VARCHAR},
+      </if>
+      <if test="labelname != null" >
+        labelName = #{labelname,jdbcType=VARCHAR},
+      </if>
+      <if test="issystem != null" >
+        isSystem = #{issystem,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.manage.dao.model.MemberLabel" >
+    update t_member_label
+    set memberId = #{memberid,jdbcType=BIGINT},
+      typeCode = #{typecode,jdbcType=VARCHAR},
+      typeName = #{typename,jdbcType=VARCHAR},
+      labelName = #{labelname,jdbcType=VARCHAR},
+      isSystem = #{issystem,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

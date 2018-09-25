@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manage.dao.mapper.OrderDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.manage.dao.model.OrderDetail" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="orderId" property="orderid" jdbcType="BIGINT" />
+    <result column="goodsDetailId" property="goodsdetailid" jdbcType="BIGINT" />
+    <result column="goodsName" property="goodsname" jdbcType="VARCHAR" />
+    <result column="sizeId" property="sizeid" jdbcType="BIGINT" />
+    <result column="colorId" property="colorid" jdbcType="BIGINT" />
+    <result column="costPrice" property="costprice" jdbcType="DOUBLE" />
+    <result column="oldPrice" property="oldprice" jdbcType="DOUBLE" />
+    <result column="price" property="price" jdbcType="DOUBLE" />
+    <result column="vipPrice" property="vipprice" jdbcType="DOUBLE" />
+    <result column="amount" property="amount" jdbcType="INTEGER" />
+    <result column="totalPrice" property="totalprice" jdbcType="DOUBLE" />
+    <result column="discount" property="discount" jdbcType="DOUBLE" />
+    <result column="avgprice" property="avgprice" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, orderId, goodsDetailId, goodsName, sizeId, colorId, costPrice, oldPrice, price, 
+    vipPrice, amount, totalPrice, discount, avgprice
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.manage.dao.model.OrderDetailExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_order_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pager != null" >
+      limit #{pager.begin} , #{pager.end}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_order_detail
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_order_detail
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.manage.dao.model.OrderDetailExample" >
+    delete from t_order_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.manage.dao.model.OrderDetail" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_order_detail (id, orderId, goodsDetailId, 
+      goodsName, sizeId, colorId, 
+      costPrice, oldPrice, price, 
+      vipPrice, amount, totalPrice, 
+      discount, avgprice)
+    values (#{id,jdbcType=BIGINT}, #{orderid,jdbcType=BIGINT}, #{goodsdetailid,jdbcType=BIGINT}, 
+      #{goodsname,jdbcType=VARCHAR}, #{sizeid,jdbcType=BIGINT}, #{colorid,jdbcType=BIGINT}, 
+      #{costprice,jdbcType=DOUBLE}, #{oldprice,jdbcType=DOUBLE}, #{price,jdbcType=DOUBLE}, 
+      #{vipprice,jdbcType=DOUBLE}, #{amount,jdbcType=INTEGER}, #{totalprice,jdbcType=DOUBLE}, 
+      #{discount,jdbcType=DOUBLE}, #{avgprice,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.manage.dao.model.OrderDetail" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_order_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderid != null" >
+        orderId,
+      </if>
+      <if test="goodsdetailid != null" >
+        goodsDetailId,
+      </if>
+      <if test="goodsname != null" >
+        goodsName,
+      </if>
+      <if test="sizeid != null" >
+        sizeId,
+      </if>
+      <if test="colorid != null" >
+        colorId,
+      </if>
+      <if test="costprice != null" >
+        costPrice,
+      </if>
+      <if test="oldprice != null" >
+        oldPrice,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="vipprice != null" >
+        vipPrice,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="totalprice != null" >
+        totalPrice,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="avgprice != null" >
+        avgprice,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderid != null" >
+        #{orderid,jdbcType=BIGINT},
+      </if>
+      <if test="goodsdetailid != null" >
+        #{goodsdetailid,jdbcType=BIGINT},
+      </if>
+      <if test="goodsname != null" >
+        #{goodsname,jdbcType=VARCHAR},
+      </if>
+      <if test="sizeid != null" >
+        #{sizeid,jdbcType=BIGINT},
+      </if>
+      <if test="colorid != null" >
+        #{colorid,jdbcType=BIGINT},
+      </if>
+      <if test="costprice != null" >
+        #{costprice,jdbcType=DOUBLE},
+      </if>
+      <if test="oldprice != null" >
+        #{oldprice,jdbcType=DOUBLE},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="vipprice != null" >
+        #{vipprice,jdbcType=DOUBLE},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="totalprice != null" >
+        #{totalprice,jdbcType=DOUBLE},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DOUBLE},
+      </if>
+      <if test="avgprice != null" >
+        #{avgprice,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.manage.dao.model.OrderDetailExample" resultType="java.lang.Integer" >
+    select count(*) from t_order_detail
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_order_detail
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderid != null" >
+        orderId = #{record.orderid,jdbcType=BIGINT},
+      </if>
+      <if test="record.goodsdetailid != null" >
+        goodsDetailId = #{record.goodsdetailid,jdbcType=BIGINT},
+      </if>
+      <if test="record.goodsname != null" >
+        goodsName = #{record.goodsname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sizeid != null" >
+        sizeId = #{record.sizeid,jdbcType=BIGINT},
+      </if>
+      <if test="record.colorid != null" >
+        colorId = #{record.colorid,jdbcType=BIGINT},
+      </if>
+      <if test="record.costprice != null" >
+        costPrice = #{record.costprice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.oldprice != null" >
+        oldPrice = #{record.oldprice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.price != null" >
+        price = #{record.price,jdbcType=DOUBLE},
+      </if>
+      <if test="record.vipprice != null" >
+        vipPrice = #{record.vipprice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.amount != null" >
+        amount = #{record.amount,jdbcType=INTEGER},
+      </if>
+      <if test="record.totalprice != null" >
+        totalPrice = #{record.totalprice,jdbcType=DOUBLE},
+      </if>
+      <if test="record.discount != null" >
+        discount = #{record.discount,jdbcType=DOUBLE},
+      </if>
+      <if test="record.avgprice != null" >
+        avgprice = #{record.avgprice,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_order_detail
+    set id = #{record.id,jdbcType=BIGINT},
+      orderId = #{record.orderid,jdbcType=BIGINT},
+      goodsDetailId = #{record.goodsdetailid,jdbcType=BIGINT},
+      goodsName = #{record.goodsname,jdbcType=VARCHAR},
+      sizeId = #{record.sizeid,jdbcType=BIGINT},
+      colorId = #{record.colorid,jdbcType=BIGINT},
+      costPrice = #{record.costprice,jdbcType=DOUBLE},
+      oldPrice = #{record.oldprice,jdbcType=DOUBLE},
+      price = #{record.price,jdbcType=DOUBLE},
+      vipPrice = #{record.vipprice,jdbcType=DOUBLE},
+      amount = #{record.amount,jdbcType=INTEGER},
+      totalPrice = #{record.totalprice,jdbcType=DOUBLE},
+      discount = #{record.discount,jdbcType=DOUBLE},
+      avgprice = #{record.avgprice,jdbcType=DOUBLE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.manage.dao.model.OrderDetail" >
+    update t_order_detail
+    <set >
+      <if test="orderid != null" >
+        orderId = #{orderid,jdbcType=BIGINT},
+      </if>
+      <if test="goodsdetailid != null" >
+        goodsDetailId = #{goodsdetailid,jdbcType=BIGINT},
+      </if>
+      <if test="goodsname != null" >
+        goodsName = #{goodsname,jdbcType=VARCHAR},
+      </if>
+      <if test="sizeid != null" >
+        sizeId = #{sizeid,jdbcType=BIGINT},
+      </if>
+      <if test="colorid != null" >
+        colorId = #{colorid,jdbcType=BIGINT},
+      </if>
+      <if test="costprice != null" >
+        costPrice = #{costprice,jdbcType=DOUBLE},
+      </if>
+      <if test="oldprice != null" >
+        oldPrice = #{oldprice,jdbcType=DOUBLE},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="vipprice != null" >
+        vipPrice = #{vipprice,jdbcType=DOUBLE},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=INTEGER},
+      </if>
+      <if test="totalprice != null" >
+        totalPrice = #{totalprice,jdbcType=DOUBLE},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=DOUBLE},
+      </if>
+      <if test="avgprice != null" >
+        avgprice = #{avgprice,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.manage.dao.model.OrderDetail" >
+    update t_order_detail
+    set orderId = #{orderid,jdbcType=BIGINT},
+      goodsDetailId = #{goodsdetailid,jdbcType=BIGINT},
+      goodsName = #{goodsname,jdbcType=VARCHAR},
+      sizeId = #{sizeid,jdbcType=BIGINT},
+      colorId = #{colorid,jdbcType=BIGINT},
+      costPrice = #{costprice,jdbcType=DOUBLE},
+      oldPrice = #{oldprice,jdbcType=DOUBLE},
+      price = #{price,jdbcType=DOUBLE},
+      vipPrice = #{vipprice,jdbcType=DOUBLE},
+      amount = #{amount,jdbcType=INTEGER},
+      totalPrice = #{totalprice,jdbcType=DOUBLE},
+      discount = #{discount,jdbcType=DOUBLE},
+      avgprice = #{avgprice,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

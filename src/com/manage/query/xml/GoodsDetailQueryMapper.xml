@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manage.query.mapper.GoodsDetailQueryMapper" >
+	
+	<select id="selectGoodsDetailQueryById" resultType="com.manage.query.model.GoodsDetailQuery">
+		select d.*,s1.specvalue colorName,s2.specvalue sizeName,g.name goodsName from t_goods_detail d
+		left join t_goods g on g.id=d.goodsid
+		left join t_spec s1 on s1.id=d.colorid
+		left join t_spec s2 on s2.id=d.sizeid
+		where d.id=#{id}
+	</select>
+	
+	<select id="selectByGoodsDetailQuery" parameterType="com.manage.query.model.GoodsDetailQuery" resultType="com.manage.query.model.GoodsDetailQuery">
+		select d.*,g.name,g.code,g.isdiscount,g.discount,s1.specvalue colorName,s2.specvalue sizeName from t_goods_detail d
+		left join t_goods g on g.id=d.goodsid
+		left join t_spec s1 on s1.id=d.colorid
+		left join t_spec s2 on s2.id=d.sizeid
+		<where>
+			<if test="detailcode != null and detailcode != ''">
+				and d.detailcode=#{detailcode}
+			</if>
+			<if test="code != null and code != ''">
+				and g.code=#{code}
+			</if>
+			<if test="codelike != null and codelike != ''">
+				and g.code like '%${codelike}%'
+			</if>
+			<if test="detailcodelike != null and detailcodelike != ''">
+				and d.detailcode like '%${detailcodelike}%'
+			</if>
+			<if test="name != null and name != ''">
+				and g.name like '%${name}%'
+			</if>
+			<if test="goodsid != null and goodsid != ''">
+				and d.goodsid=#{goodsid}
+			</if>
+			<if test="sizeid != null and sizeid != ''">
+				and d.sizeid=#{sizeid}
+			</if>
+			<if test="colorid != null and colorid != ''">
+				and d.colorid=#{colorid}
+			</if>
+			<if test="status != null and status != ''">
+				and d.status=#{status}
+			</if>
+		</where>
+		<if test="orderBy !=null  and orderBy != '' ">
+			order by ${orderBy}
+		</if>
+		<if test="pager !=null  and pager != '' ">
+			limit #{pager.begin},#{pager.rows}
+		</if>
+	</select>
+	
+	<select id="countByGoodsDetailQuery" parameterType="com.manage.query.model.GoodsDetailQuery" resultType="java.lang.Integer">
+		select count(1) from t_goods_detail d
+		left join t_goods g on g.id=d.goodsid
+		<where>
+			<if test="detailcode != null and detailcode != ''">
+				and d.detailcode=#{detailcode}
+			</if>
+			<if test="code != null and code != ''">
+				and g.code=#{code}
+			</if>
+			<if test="name != null and name != ''">
+				and g.name like '%${name}%'
+			</if>
+			<if test="goodsid != null and goodsid != ''">
+				and d.goodsid=#{goodsid}
+			</if>
+			<if test="sizeid != null and sizeid != ''">
+				and d.sizeid=#{sizeid}
+			</if>
+			<if test="colorid != null and colorid != ''">
+				and d.colorid=#{colorid}
+			</if>
+			<if test="status != null and status != ''">
+				and d.status=#{status}
+			</if>
+		</where>
+	</select>
+	
+</mapper>

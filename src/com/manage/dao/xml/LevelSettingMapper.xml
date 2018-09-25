@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manage.dao.mapper.LevelSettingMapper" >
+  <resultMap id="BaseResultMap" type="com.manage.dao.model.LevelSetting" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="levelstart" property="levelstart" jdbcType="INTEGER" />
+    <result column="levelend" property="levelend" jdbcType="INTEGER" />
+    <result column="grade" property="grade" jdbcType="INTEGER" />
+    <result column="gradename" property="gradename" jdbcType="VARCHAR" />
+    <result column="pointSpeed" property="pointspeed" jdbcType="REAL" />
+    <result column="discount" property="discount" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, icon, levelstart, levelend, grade, gradename, pointSpeed, discount
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.manage.dao.model.LevelSettingExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_level_setting
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pager != null" >
+      limit #{pager.begin} , #{pager.end}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_level_setting
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_level_setting
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.manage.dao.model.LevelSettingExample" >
+    delete from t_level_setting
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.manage.dao.model.LevelSetting" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_level_setting (id, icon, levelstart, 
+      levelend, grade, gradename, 
+      pointSpeed, discount)
+    values (#{id,jdbcType=BIGINT}, #{icon,jdbcType=VARCHAR}, #{levelstart,jdbcType=INTEGER}, 
+      #{levelend,jdbcType=INTEGER}, #{grade,jdbcType=INTEGER}, #{gradename,jdbcType=VARCHAR}, 
+      #{pointspeed,jdbcType=REAL}, #{discount,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.manage.dao.model.LevelSetting" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_level_setting
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="icon != null" >
+        icon,
+      </if>
+      <if test="levelstart != null" >
+        levelstart,
+      </if>
+      <if test="levelend != null" >
+        levelend,
+      </if>
+      <if test="grade != null" >
+        grade,
+      </if>
+      <if test="gradename != null" >
+        gradename,
+      </if>
+      <if test="pointspeed != null" >
+        pointSpeed,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="icon != null" >
+        #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="levelstart != null" >
+        #{levelstart,jdbcType=INTEGER},
+      </if>
+      <if test="levelend != null" >
+        #{levelend,jdbcType=INTEGER},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=INTEGER},
+      </if>
+      <if test="gradename != null" >
+        #{gradename,jdbcType=VARCHAR},
+      </if>
+      <if test="pointspeed != null" >
+        #{pointspeed,jdbcType=REAL},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.manage.dao.model.LevelSettingExample" resultType="java.lang.Integer" >
+    select count(*) from t_level_setting
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_level_setting
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.icon != null" >
+        icon = #{record.icon,jdbcType=VARCHAR},
+      </if>
+      <if test="record.levelstart != null" >
+        levelstart = #{record.levelstart,jdbcType=INTEGER},
+      </if>
+      <if test="record.levelend != null" >
+        levelend = #{record.levelend,jdbcType=INTEGER},
+      </if>
+      <if test="record.grade != null" >
+        grade = #{record.grade,jdbcType=INTEGER},
+      </if>
+      <if test="record.gradename != null" >
+        gradename = #{record.gradename,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pointspeed != null" >
+        pointSpeed = #{record.pointspeed,jdbcType=REAL},
+      </if>
+      <if test="record.discount != null" >
+        discount = #{record.discount,jdbcType=DOUBLE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_level_setting
+    set id = #{record.id,jdbcType=BIGINT},
+      icon = #{record.icon,jdbcType=VARCHAR},
+      levelstart = #{record.levelstart,jdbcType=INTEGER},
+      levelend = #{record.levelend,jdbcType=INTEGER},
+      grade = #{record.grade,jdbcType=INTEGER},
+      gradename = #{record.gradename,jdbcType=VARCHAR},
+      pointSpeed = #{record.pointspeed,jdbcType=REAL},
+      discount = #{record.discount,jdbcType=DOUBLE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.manage.dao.model.LevelSetting" >
+    update t_level_setting
+    <set >
+      <if test="icon != null" >
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+      <if test="levelstart != null" >
+        levelstart = #{levelstart,jdbcType=INTEGER},
+      </if>
+      <if test="levelend != null" >
+        levelend = #{levelend,jdbcType=INTEGER},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=INTEGER},
+      </if>
+      <if test="gradename != null" >
+        gradename = #{gradename,jdbcType=VARCHAR},
+      </if>
+      <if test="pointspeed != null" >
+        pointSpeed = #{pointspeed,jdbcType=REAL},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.manage.dao.model.LevelSetting" >
+    update t_level_setting
+    set icon = #{icon,jdbcType=VARCHAR},
+      levelstart = #{levelstart,jdbcType=INTEGER},
+      levelend = #{levelend,jdbcType=INTEGER},
+      grade = #{grade,jdbcType=INTEGER},
+      gradename = #{gradename,jdbcType=VARCHAR},
+      pointSpeed = #{pointspeed,jdbcType=REAL},
+      discount = #{discount,jdbcType=DOUBLE}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

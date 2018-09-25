@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manage.query.mapper.GoodsQueryMapper" >
+	
+	<select id="selectGoodsQueryById" resultType="com.manage.query.model.GoodsQuery">
+		select g.*,b.name brandname,t.name typename from t_goods g
+		left join t_brand b on b.id=g.brandId
+		left join t_type t on t.code =g.typeid
+		where g.id=#{id}
+	</select>
+	
+	<select id="selectGoodsQueryByCode" resultType="com.manage.query.model.GoodsQuery">
+		select g.*,b.name brandname,t.name typename from t_goods g
+		left join t_brand b on b.id=g.brandId
+		left join t_type t on t.code =g.typeid
+		where g.code=#{code}
+	</select>
+	
+	<select id="selectByGoodsQuery" parameterType="com.manage.query.model.GoodsQuery" resultType="com.manage.query.model.GoodsQuery">
+		select g.*,b.name brandname,t.name typename from t_goods g
+		left join t_brand b on b.id=g.brandId
+		left join t_type t on t.code =g.typeid
+		<where>
+			<if test="code != null and code != ''">
+				and g.code=#{code}
+			</if>
+			<if test="brandid != null and brandid != ''">
+				and g.brandid=#{brandid}
+			</if>
+			<if test="typeid != null and typeid != ''">
+				and g.typeid=#{typeid}
+			</if>
+			<if test="name != null and name != ''">
+				and g.name like '%${name}%'
+			</if>
+			<if test="status != null and status != ''">
+				and g.status=#{status}
+			</if>
+			<if test="isrecomment != null and isrecomment != ''">
+				and g.isrecomment=#{isrecomment}
+			</if>
+		</where>
+		<if test="orderBy !=null  and orderBy != '' ">
+			order by ${orderBy}
+		</if>
+		<if test="pager !=null  and pager != '' ">
+			limit #{pager.begin},#{pager.rows}
+		</if>
+	</select>
+	
+	<select id="countByGoodsQuery" parameterType="com.manage.query.model.GoodsQuery" resultType="java.lang.Integer">
+		select count(1) from t_goods g
+		<where>
+			<if test="code != null and code != ''">
+				and g.code=#{code}
+			</if>
+			<if test="brandid != null and brandid != ''">
+				and g.brandid=#{brandid}
+			</if>
+			<if test="typeid != null and typeid != ''">
+				and g.typeid=#{typeid}
+			</if>
+			<if test="name != null and name != ''">
+				and g.name like '%${name}%'
+			</if>
+			<if test="status != null and status != ''">
+				and g.status=#{status}
+			</if>
+			<if test="isrecomment != null and isrecomment != ''">
+				and g.isrecomment=#{isrecomment}
+			</if>
+		</where>
+	</select>
+	
+</mapper>

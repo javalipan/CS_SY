@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+	<!-- 设置mysql驱动路径 -->
+	<!-- 此处指定生成针对MyBatis3的DAO -->
+	<context id="context1" targetRuntime="MyBatis3">
+		<plugin type="com.manage.util.mybatis.MySQLPaginationPlugin"></plugin>
+		<plugin type="com.manage.util.mybatis.GeneratorKeyXmlPlugin"></plugin>
+		<!-- 此处是将Example改名为Criteria 当然 想改成什么都行 -->
+        <plugin type="org.mybatis.generator.plugins.RenameExampleClassPlugin">  
+	        <property name="searchString" value="Mapper$" />
+	        <property name="replaceString" value="Dao" />
+        </plugin>
+         
+        <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />  
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />  
+        <plugin type="org.mybatis.generator.plugins.CaseInsensitiveLikePlugin" /> 
+        
+        <commentGenerator type="com.manage.util.mybatis.LocalCommentGenerator">
+            <property name="suppressDate" value="true"/>
+            <!-- 去除自动生成的注释 -->
+            <property name="suppressAllComments" value="true"/>
+        </commentGenerator> 
+        
+		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
+			connectionURL="jdbc:mysql://localhost:3306/shop?useUnicode=true&amp;characterEncoding=UTF-8"
+			userId="root" password="root"/>
+			
+		<!-- 生成vo对象及Example对象 -->
+		<javaModelGenerator targetPackage="com.manage.dao.model" targetProject="./src">
+		    <property name="enableSubPackages" value="true" />  
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+		<!-- 生成用于查询的Example对象的xml文件 -->
+		<sqlMapGenerator targetPackage="com.manage.dao.xml" targetProject="./src">
+			<property name="enableSubPackages" value="true" />
+		</sqlMapGenerator>
+		<!-- 生成DAO的类文件以及配置文件 -->
+		<javaClientGenerator targetPackage="com.manage.dao.mapper" targetProject="./src" type="XMLMAPPER">
+			<property name="enableSubPackages" value="true" /> 
+		</javaClientGenerator>
+		
+		<!-- 想要生成的数据库表,自动化工具会根据该表的结构生成相应的vo对象 -->
+		
+		<table tableName="t_member" domainObjectName="Member"></table>
+		<table tableName="t_spec" domainObjectName="Spec"></table>
+		<table tableName="t_brand" domainObjectName="Brand"></table>
+		<table tableName="t_imgs" domainObjectName="Imgs"></table>
+		<table tableName="t_goods" domainObjectName="Goods"></table>
+		<table tableName="t_goods_detail" domainObjectName="GoodsDetail"></table>
+		<table tableName="t_schedule" domainObjectName="Schedule"></table>
+		<table tableName="t_order" domainObjectName="Order"></table>
+		<table tableName="t_order_detail" domainObjectName="OrderDetail"></table>
+		<table tableName="t_region" domainObjectName="Region"></table>
+		<table tableName="t_repertory" domainObjectName="Repertory"></table>
+		<table tableName="t_type" domainObjectName="Type"></table>
+		<table tableName="t_point_log" domainObjectName="PointLog"></table>
+		<table tableName="t_level_setting" domainObjectName="LevelSetting"></table>
+		
+	</context>
+</generatorConfiguration>

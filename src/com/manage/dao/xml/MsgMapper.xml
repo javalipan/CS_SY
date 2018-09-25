@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.manage.dao.mapper.MsgMapper" >
+  <resultMap id="BaseResultMap" type="com.manage.dao.model.Msg" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="msgtype" property="msgtype" jdbcType="VARCHAR" />
+    <result column="picaddr" property="picaddr" jdbcType="VARCHAR" />
+    <result column="pic" property="pic" jdbcType="VARCHAR" />
+    <result column="contenttype" property="contenttype" jdbcType="VARCHAR" />
+    <result column="linkaddr" property="linkaddr" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="fdorder" property="fdorder" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, title, msgtype, picaddr, pic, contenttype, linkaddr, content, fdorder
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.manage.dao.model.MsgExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_msg
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    <if test="pager != null" >
+      limit #{pager.begin} , #{pager.end}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_msg
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_msg
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.manage.dao.model.MsgExample" >
+    delete from t_msg
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.manage.dao.model.Msg" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_msg (id, title, msgtype, 
+      picaddr, pic, contenttype, 
+      linkaddr, content, fdorder
+      )
+    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{msgtype,jdbcType=VARCHAR}, 
+      #{picaddr,jdbcType=VARCHAR}, #{pic,jdbcType=VARCHAR}, #{contenttype,jdbcType=VARCHAR}, 
+      #{linkaddr,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, #{fdorder,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.manage.dao.model.Msg" useGeneratedKeys="true" keyProperty="id" >
+    insert into t_msg
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="msgtype != null" >
+        msgtype,
+      </if>
+      <if test="picaddr != null" >
+        picaddr,
+      </if>
+      <if test="pic != null" >
+        pic,
+      </if>
+      <if test="contenttype != null" >
+        contenttype,
+      </if>
+      <if test="linkaddr != null" >
+        linkaddr,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="fdorder != null" >
+        fdorder,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="msgtype != null" >
+        #{msgtype,jdbcType=VARCHAR},
+      </if>
+      <if test="picaddr != null" >
+        #{picaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="pic != null" >
+        #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="contenttype != null" >
+        #{contenttype,jdbcType=VARCHAR},
+      </if>
+      <if test="linkaddr != null" >
+        #{linkaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="fdorder != null" >
+        #{fdorder,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.manage.dao.model.MsgExample" resultType="java.lang.Integer" >
+    select count(*) from t_msg
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_msg
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.msgtype != null" >
+        msgtype = #{record.msgtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.picaddr != null" >
+        picaddr = #{record.picaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pic != null" >
+        pic = #{record.pic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contenttype != null" >
+        contenttype = #{record.contenttype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkaddr != null" >
+        linkaddr = #{record.linkaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.fdorder != null" >
+        fdorder = #{record.fdorder,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_msg
+    set id = #{record.id,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      msgtype = #{record.msgtype,jdbcType=VARCHAR},
+      picaddr = #{record.picaddr,jdbcType=VARCHAR},
+      pic = #{record.pic,jdbcType=VARCHAR},
+      contenttype = #{record.contenttype,jdbcType=VARCHAR},
+      linkaddr = #{record.linkaddr,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
+      fdorder = #{record.fdorder,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.manage.dao.model.Msg" >
+    update t_msg
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="msgtype != null" >
+        msgtype = #{msgtype,jdbcType=VARCHAR},
+      </if>
+      <if test="picaddr != null" >
+        picaddr = #{picaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="pic != null" >
+        pic = #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="contenttype != null" >
+        contenttype = #{contenttype,jdbcType=VARCHAR},
+      </if>
+      <if test="linkaddr != null" >
+        linkaddr = #{linkaddr,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="fdorder != null" >
+        fdorder = #{fdorder,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.manage.dao.model.Msg" >
+    update t_msg
+    set title = #{title,jdbcType=VARCHAR},
+      msgtype = #{msgtype,jdbcType=VARCHAR},
+      picaddr = #{picaddr,jdbcType=VARCHAR},
+      pic = #{pic,jdbcType=VARCHAR},
+      contenttype = #{contenttype,jdbcType=VARCHAR},
+      linkaddr = #{linkaddr,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      fdorder = #{fdorder,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
