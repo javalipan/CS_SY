@@ -1,5 +1,5 @@
-/applicationContext.xml
 /com
 /generatorConfig.xml
 /log4j.properties
 /spring-servlet.xml
+/applicationContext.xml

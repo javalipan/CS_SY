@@ -26,7 +26,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.manage.dao.model.User;
 import com.manage.util.TreeNodes;
-//父级
+
 public class BaseController {
 	
 	/** 
