@@ -248,6 +248,7 @@ $(function(){
   			calc();
   			return;
   		}
+  		$("#remainPay").text(totalprice);
   		if($("#payed").val()&&!isNaN($("#payed").val())&&parseFloat($("#payed").val())>0){
   			var viptotal=parseFloat(totalprice);
   			var torefund=Number(parseFloat($("#payed").val())).sub(viptotal).toFixed(2);
