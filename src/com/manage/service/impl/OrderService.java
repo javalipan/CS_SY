@@ -358,6 +358,7 @@ public class OrderService implements IOrderService {
 		for(int i=0;i<details.size();i++){		//遍历商品详情json
 			Long id=details.getJSONObject(i).getLong("id");
 			int num=details.getJSONObject(i).getInt("num");
+			Double discount=details.getJSONObject(i).getDouble("discount");
 			GoodsDetail goodsDetail=goodsDetailMapper.selectByPrimaryKey(id);
 			goodsDetail.setAmount(goodsDetail.getAmount()-num);
 			goodsDetails.add(goodsDetail);		//需要修改库存的商品
@@ -376,12 +377,23 @@ public class OrderService implements IOrderService {
 			od.setAmount(num);
 			od.setDiscount("2".equals(goods.getIsdiscount())?goods.getDiscount():0);
 			total=NumberUtil.add(total, NumberUtil.multiply(goodsDetail.getPrice(), num));
-			if("2".equals(goods.getIsdiscount())){		//折扣中的以折扣价计算
-				viptotal=NumberUtil.add(viptotal, NumberUtil.multiply(goodsDetail.getVipprice(), num));
-			}else{
-				viptotal=NumberUtil.add(viptotal, NumberUtil.multiply(goodsDetail.getPrice(), num));
+			if(discount>0&&discount<10&&goods.getDiscount()!=discount){		//修改了折扣
+				double vippricenew=NumberUtil.toFixed(NumberUtil.divide(NumberUtil.multiply(goodsDetail.getPrice(), discount), 10), 2);
+				od.setVipprice(vippricenew);	//新折扣价
+				od.setDiscount(discount);		//新折扣
+				viptotal=NumberUtil.add(viptotal, NumberUtil.multiply(vippricenew, num));
+				od.setTotalprice(NumberUtil.toFixed(NumberUtil.multiply(vippricenew, num), 2));
+			}else{	//未修改折扣
+				if("2".equals(goods.getIsdiscount())){
+					viptotal=NumberUtil.add(viptotal, NumberUtil.multiply(goodsDetail.getVipprice(), num));
+					od.setTotalprice(NumberUtil.toFixed(NumberUtil.multiply(goodsDetail.getVipprice(), num), 2));
+				}
+				else{
+					viptotal=NumberUtil.add(viptotal, NumberUtil.multiply(goodsDetail.getPrice(), num));
+					od.setTotalprice(NumberUtil.toFixed(NumberUtil.multiply(goodsDetail.getPrice(), num), 2));
+				}
 			}
-			od.setTotalprice(NumberUtil.toFixed(viptotal, 2));
+			
 			orderDetails.add(od);
 		}
 		double viptotal2=viptotal;
@@ -393,7 +405,6 @@ public class OrderService implements IOrderService {
 		order.setPricemodified("0");
 		order.setOldprice(NumberUtil.toFixed(total, 2));
 		
-		
 		Member member = null;
 		if(order.getMemberid()!=null&&order.getMemberid()>0){
 			member=memberMapper.selectByPrimaryKey(order.getMemberid());
@@ -402,42 +413,8 @@ public class OrderService implements IOrderService {
 			if(order.getBalancepay()!=null&&member.getBalance()<order.getBalancepay()){
 				throw new Exception("余额不足!");
 			}
-			if(member.getDiscount()!=null&&member.getDiscount()>0&&member.getDiscount()<10){		//会员折扣
-				viptotal=MathUtils.div(MathUtils.mul(viptotal, member.getDiscount()), 10);
-			}
-		}
-		FullRuleExample fullRuleExample=new FullRuleExample();
-		fullRuleExample.setOrderByClause("amount asc");
-		List<FullRule> fullRules=fullRuleMapper.selectByExample(fullRuleExample);
-		int subtractmoney=calcFullReduce(viptotal, fullRules);
-		if(subtractmoney>0){
-			viptotal=MathUtils.reduce(viptotal, subtractmoney);	//减去满减部分
-			order.setSubtractmoney(subtractmoney);
 		}
 		
-		double totalprice=0.0;
-		if(order.getMemberid()!=null&&order.getMemberid()>0&&exchange!=null&&exchange>0){
-			if(member.getMemberpoint()<exchange){
-				throw new Exception("积分不足!");
-			}
-			
-			double exchangeprice=exchange/CommonConstant.INT_WEIGHT;
-			order.setIntegralprice(exchangeprice);
-			totalprice=NumberUtil.toFixed(NumberUtil.subtract(viptotal, exchangeprice), 2);
-		}
-		else{
-			totalprice=NumberUtil.toFixed(viptotal, 2);
-		}
-		if(order.getTotalprice()!=totalprice){
-			order.setPricemodified("1");
-			order.setModifyuser(user.getId());
-		}
-		if(order.getBalancepay()!=null&&order.getBalancepay()>0){	//余额支付
-			order.setTotalprice(MathUtils.reduce(order.getTotalprice(),order.getBalancepay()));
-		}
-		else{
-			order.setBalancepay(0.0);
-		}
 		List<MemberCoupon> memberCoupons=null;
 		if(StringUtils.isNotBlank(couponids)){		//选择了优惠券
 			String idarray[]=couponids.split(",");
@@ -451,12 +428,15 @@ public class OrderService implements IOrderService {
 			int coupontotal=0;		//优惠券使用总金额
 			String userCoupons="";
 			for(MemberCoupon memberCoupon:memberCoupons){
+				if(memberCoupon.getLimitmoney()>viptotal){
+					throw new Exception("订单金额未达到优惠券限制金额，无法使用!");
+				}
 				coupontotal+=memberCoupon.getMoney();
 				userCoupons+=memberCoupon.getCode()+",";
 			}
-			order.setTotalprice(MathUtils.reduce(order.getTotalprice(),coupontotal));
-			if(order.getTotalprice()<=0){
-				order.setTotalprice(0.0);
+			viptotal=MathUtils.reduce(viptotal,coupontotal);
+			if(viptotal<0){
+				viptotal=0;
 			}
 			order.setCouponspay(coupontotal);
 			order.setUsercoupons(userCoupons.substring(0,userCoupons.length()-1));
@@ -464,6 +444,49 @@ public class OrderService implements IOrderService {
 		else{
 			order.setCouponspay(0);
 		}
+		
+		FullRuleExample fullRuleExample=new FullRuleExample();
+		fullRuleExample.setOrderByClause("amount asc");
+		List<FullRule> fullRules=fullRuleMapper.selectByExample(fullRuleExample);
+		int subtractmoney=calcFullReduce(viptotal, fullRules);
+		if(subtractmoney>0){
+			viptotal=MathUtils.reduce(viptotal, subtractmoney);	//减去满减部分
+			order.setSubtractmoney(subtractmoney);
+		}
+		
+		if(order.getMemberid()!=null&&order.getMemberid()>0&&exchange!=null&&exchange>0){
+			if(member.getMemberpoint()<exchange){
+				throw new Exception("积分不足!");
+			}
+			
+			double exchangeprice=exchange/CommonConstant.INT_WEIGHT;
+			order.setIntegralprice(exchangeprice);
+			viptotal=NumberUtil.toFixed(NumberUtil.subtract(viptotal, exchangeprice), 2);
+		}
+		else{
+			viptotal=NumberUtil.toFixed(viptotal, 2);
+		}
+		
+		
+		if(member.getDiscount()!=null&&member.getDiscount()>0&&member.getDiscount()<10){		//会员折扣
+			viptotal=MathUtils.div(MathUtils.mul(viptotal, member.getDiscount()), 10);
+		}
+		
+		double qdTotal=order.getTotalprice();		//页面传递的totalprice
+		order.setTotalprice(viptotal);
+		if(order.getBalancepay()!=null&&order.getBalancepay()>0){	//余额支付
+			order.setTotalprice(MathUtils.reduce(order.getTotalprice(),order.getBalancepay()));
+		}
+		else{
+			order.setBalancepay(0.0);
+		}
+		
+		if(order.getTotalprice()!=qdTotal){
+			order.setPricemodified("1");
+			order.setTotalprice(qdTotal);
+			order.setModifyuser(user.getId());
+		}
+		
 		order.setOrdertime(now);
 		int thispoint=0;
 		if(order.getMemberid()!=null&&order.getMemberid()>0){		//选择了会员修改会员积分

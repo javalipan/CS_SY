@@ -223,7 +223,7 @@ public class ManageController extends BaseController{
 	 */
 	@RequestMapping(value="/saveOrder.action")
 	@ResponseBody
-	public String saveOrder(Order order,String orderJson,Integer exchange,boolean joinpoints,Double balancepay,String couponids) throws Exception{
+	public String saveOrder(Order order,String orderJson,Integer exchange,boolean joinpoints,Double balancepay,String couponids){
 		order.setIspay("1");
 		order.setIssend("1");
 		order.setIsreceive("1");
@@ -234,12 +234,19 @@ public class ManageController extends BaseController{
 		order.setSendtime(now);
 		order.setReceivetime(now);
 		Map<String, Object> map=new HashMap<String, Object>();
-		if(orderService.saveOrder(order, orderJson, exchange, joinpoints,balancepay,couponids)){
-			map.put("status", true);
-			map.put("orderid", order.getId());
-		}
-		else{
+		try {
+			if(orderService.saveOrder(order, orderJson, exchange, joinpoints,balancepay,couponids)){
+				map.put("status", true);
+				map.put("orderid", order.getId());
+			}
+			else{
+				map.put("status", false);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
 			map.put("status", false);
+			map.put("msg", e.getMessage());
+			return JSONObject.fromObject(map).toString();
 		}
 		return JSONObject.fromObject(map).toString();
 	}
