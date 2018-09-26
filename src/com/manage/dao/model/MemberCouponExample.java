@@ -1015,6 +1015,66 @@ public class MemberCouponExample {
             addCriterion("orderId not between", value1, value2, "orderid");
             return (Criteria) this;
         }
+
+        public Criteria andLimitmoneyIsNull() {
+            addCriterion("limitmoney is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLimitmoneyIsNotNull() {
+            addCriterion("limitmoney is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLimitmoneyEqualTo(Integer value) {
+            addCriterion("limitmoney =", value, "limitmoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andLimitmoneyNotEqualTo(Integer value) {
+            addCriterion("limitmoney <>", value, "limitmoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andLimitmoneyGreaterThan(Integer value) {
+            addCriterion("limitmoney >", value, "limitmoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andLimitmoneyGreaterThanOrEqualTo(Integer value) {
+            addCriterion("limitmoney >=", value, "limitmoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andLimitmoneyLessThan(Integer value) {
+            addCriterion("limitmoney <", value, "limitmoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andLimitmoneyLessThanOrEqualTo(Integer value) {
+            addCriterion("limitmoney <=", value, "limitmoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andLimitmoneyIn(List<Integer> values) {
+            addCriterion("limitmoney in", values, "limitmoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andLimitmoneyNotIn(List<Integer> values) {
+            addCriterion("limitmoney not in", values, "limitmoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andLimitmoneyBetween(Integer value1, Integer value2) {
+            addCriterion("limitmoney between", value1, value2, "limitmoney");
+            return (Criteria) this;
+        }
+
+        public Criteria andLimitmoneyNotBetween(Integer value1, Integer value2) {
+            addCriterion("limitmoney not between", value1, value2, "limitmoney");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

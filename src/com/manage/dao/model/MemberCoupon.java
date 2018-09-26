@@ -46,6 +46,9 @@ public class MemberCoupon implements Serializable {
     /**[19] 使用订单*/
     private Long orderid;
 
+    /**[10 NOTNULL] 金额制限*/
+    private Integer limitmoney;
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -244,6 +247,20 @@ public class MemberCoupon implements Serializable {
         this.orderid = orderid;
     }
 
+    /**
+     * @return  Integer  金额制限
+     */
+    public Integer getLimitmoney() {
+        return limitmoney;
+    }
+
+    /**
+     * @param  Integer[10 NOTNULL] 金额制限
+     */
+    public void setLimitmoney(Integer limitmoney) {
+        this.limitmoney = limitmoney;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -269,7 +286,8 @@ public class MemberCoupon implements Serializable {
             && (this.getEndtime() == null ? other.getEndtime() == null : this.getEndtime().equals(other.getEndtime()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
             && (this.getUsetime() == null ? other.getUsetime() == null : this.getUsetime().equals(other.getUsetime()))
-            && (this.getOrderid() == null ? other.getOrderid() == null : this.getOrderid().equals(other.getOrderid()));
+            && (this.getOrderid() == null ? other.getOrderid() == null : this.getOrderid().equals(other.getOrderid()))
+            && (this.getLimitmoney() == null ? other.getLimitmoney() == null : this.getLimitmoney().equals(other.getLimitmoney()));
     }
 
     @Override
@@ -290,6 +308,7 @@ public class MemberCoupon implements Serializable {
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getUsetime() == null) ? 0 : getUsetime().hashCode());
         result = prime * result + ((getOrderid() == null) ? 0 : getOrderid().hashCode());
+        result = prime * result + ((getLimitmoney() == null) ? 0 : getLimitmoney().hashCode());
         return result;
     }
 }

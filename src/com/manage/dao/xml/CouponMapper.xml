@@ -22,6 +22,7 @@
     <result column="status" property="status" jdbcType="VARCHAR" />
     <result column="createTime" property="createtime" jdbcType="TIMESTAMP" />
     <result column="createUser" property="createuser" jdbcType="VARCHAR" />
+    <result column="limitmoney" property="limitmoney" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -83,7 +84,8 @@
   </sql>
   <sql id="Base_Column_List" >
     id, type, name, subtitle, remark, logoUrl, amount, leftAmount, money, price, integral, 
-    timeType, days, startTime, endTime, maxGet, getGrade, status, createTime, createUser
+    timeType, days, startTime, endTime, maxGet, getGrade, status, createTime, createUser, 
+    limitmoney
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.manage.dao.model.CouponExample" >
     select
@@ -125,14 +127,16 @@
       price, integral, timeType, 
       days, startTime, endTime, 
       maxGet, getGrade, status, 
-      createTime, createUser)
+      createTime, createUser, limitmoney
+      )
     values (#{id,jdbcType=BIGINT}, #{type,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{subtitle,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{logourl,jdbcType=VARCHAR}, 
       #{amount,jdbcType=INTEGER}, #{leftamount,jdbcType=INTEGER}, #{money,jdbcType=INTEGER}, 
       #{price,jdbcType=DOUBLE}, #{integral,jdbcType=INTEGER}, #{timetype,jdbcType=VARCHAR}, 
       #{days,jdbcType=INTEGER}, #{starttime,jdbcType=TIMESTAMP}, #{endtime,jdbcType=TIMESTAMP}, 
       #{maxget,jdbcType=INTEGER}, #{getgrade,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, 
-      #{createtime,jdbcType=TIMESTAMP}, #{createuser,jdbcType=VARCHAR})
+      #{createtime,jdbcType=TIMESTAMP}, #{createuser,jdbcType=VARCHAR}, #{limitmoney,jdbcType=INTEGER}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.manage.dao.model.Coupon" useGeneratedKeys="true" keyProperty="id" >
     insert into t_coupon
@@ -197,6 +201,9 @@
       <if test="createuser != null" >
         createUser,
       </if>
+      <if test="limitmoney != null" >
+        limitmoney,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -258,6 +265,9 @@
       </if>
       <if test="createuser != null" >
         #{createuser,jdbcType=VARCHAR},
+      </if>
+      <if test="limitmoney != null" >
+        #{limitmoney,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -330,6 +340,9 @@
       <if test="record.createuser != null" >
         createUser = #{record.createuser,jdbcType=VARCHAR},
       </if>
+      <if test="record.limitmoney != null" >
+        limitmoney = #{record.limitmoney,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -356,7 +369,8 @@
       getGrade = #{record.getgrade,jdbcType=INTEGER},
       status = #{record.status,jdbcType=VARCHAR},
       createTime = #{record.createtime,jdbcType=TIMESTAMP},
-      createUser = #{record.createuser,jdbcType=VARCHAR}
+      createUser = #{record.createuser,jdbcType=VARCHAR},
+      limitmoney = #{record.limitmoney,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -421,6 +435,9 @@
       <if test="createuser != null" >
         createUser = #{createuser,jdbcType=VARCHAR},
       </if>
+      <if test="limitmoney != null" >
+        limitmoney = #{limitmoney,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -444,7 +461,8 @@
       getGrade = #{getgrade,jdbcType=INTEGER},
       status = #{status,jdbcType=VARCHAR},
       createTime = #{createtime,jdbcType=TIMESTAMP},
-      createUser = #{createuser,jdbcType=VARCHAR}
+      createUser = #{createuser,jdbcType=VARCHAR},
+      limitmoney = #{limitmoney,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

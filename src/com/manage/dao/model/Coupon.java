@@ -64,6 +64,9 @@ public class Coupon implements Serializable {
     /**[36 NOTNULL] 创建人*/
     private String createuser;
 
+    /**[10 NOTNULL] 金额制限*/
+    private Integer limitmoney;
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -346,6 +349,20 @@ public class Coupon implements Serializable {
         this.createuser = createuser == null ? null : createuser.trim();
     }
 
+    /**
+     * @return  Integer  金额制限
+     */
+    public Integer getLimitmoney() {
+        return limitmoney;
+    }
+
+    /**
+     * @param  Integer[10 NOTNULL] 金额制限
+     */
+    public void setLimitmoney(Integer limitmoney) {
+        this.limitmoney = limitmoney;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (this == that) {
@@ -377,7 +394,8 @@ public class Coupon implements Serializable {
             && (this.getGetgrade() == null ? other.getGetgrade() == null : this.getGetgrade().equals(other.getGetgrade()))
             && (this.getStatus() == null ? other.getStatus() == null : this.getStatus().equals(other.getStatus()))
             && (this.getCreatetime() == null ? other.getCreatetime() == null : this.getCreatetime().equals(other.getCreatetime()))
-            && (this.getCreateuser() == null ? other.getCreateuser() == null : this.getCreateuser().equals(other.getCreateuser()));
+            && (this.getCreateuser() == null ? other.getCreateuser() == null : this.getCreateuser().equals(other.getCreateuser()))
+            && (this.getLimitmoney() == null ? other.getLimitmoney() == null : this.getLimitmoney().equals(other.getLimitmoney()));
     }
 
     @Override
@@ -404,6 +422,7 @@ public class Coupon implements Serializable {
         result = prime * result + ((getStatus() == null) ? 0 : getStatus().hashCode());
         result = prime * result + ((getCreatetime() == null) ? 0 : getCreatetime().hashCode());
         result = prime * result + ((getCreateuser() == null) ? 0 : getCreateuser().hashCode());
+        result = prime * result + ((getLimitmoney() == null) ? 0 : getLimitmoney().hashCode());
         return result;
     }
 }
