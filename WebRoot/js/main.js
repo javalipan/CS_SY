@@ -534,6 +534,10 @@ $(function(){
   			layer.alert("请先选择要是用的优惠券!");
   			return;
   		}*/
+  		if(parseFloat(coupontotal)>parseFloat($("input[name='totalprice']").val())){
+  			layer.alert("输入金额大于订单金额!");
+  			return;
+  		}
   		if(coupontotal>0){
   			$("#useBalance").text(0);
   			$("input[name='balancepay']").val(0);
