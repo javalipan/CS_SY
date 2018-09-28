@@ -729,12 +729,13 @@ public class OrderService implements IOrderService {
 			goodsDetail.setPrice(orderDetail.getDiscount()>0?goodsDetail.getVipprice():goodsDetail.getPrice());
 			JSONObject goods=JSONObject.fromObject(goodsDetail);
 			goods.put("num", orderDetail.getAmount());
-			goods.put("totalprice", NumberUtil.toFixed(NumberUtil.multiply(goodsDetail.getPrice(), orderDetail.getAmount()), 2));
+			goods.put("price", orderDetail.getDiscount()>0?orderDetail.getVipprice():orderDetail.getPrice());
+			goods.put("totalprice", NumberUtil.toFixed(NumberUtil.multiply((orderDetail.getDiscount()>0?orderDetail.getVipprice():orderDetail.getPrice()), orderDetail.getAmount()), 2));
 			jsonArray.add(goods);
 			if(orderDetail.getDiscount()>0){		//折扣中的以折扣价计算
-				viptotal=NumberUtil.add(viptotal, NumberUtil.multiply(goodsDetail.getVipprice(), orderDetail.getAmount()));
+				viptotal=NumberUtil.add(viptotal, NumberUtil.multiply(orderDetail.getVipprice(), orderDetail.getAmount()));
 			}else{
-				viptotal=NumberUtil.add(viptotal, NumberUtil.multiply(goodsDetail.getPrice(), orderDetail.getAmount()));
+				viptotal=NumberUtil.add(viptotal, NumberUtil.multiply(orderDetail.getPrice(), orderDetail.getAmount()));
 			}
 		}
 		result.put("oldprice", viptotal);
