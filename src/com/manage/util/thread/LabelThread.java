@@ -131,48 +131,76 @@ public class LabelThread implements Runnable{
 		timeLabel.setMemberid(member.getId());
 		timeLabel.setLabelname(DateUtil.getInTimeLabel(member.getRegistertime()));
 		
-		if(orderQuery.getCnt()==1){		//第一次下单,需要新增标签
-			memberLabelMapper.insertSelective(levelLabel);
-			memberLabelMapper.insertSelective(moneyLabel);
-			memberLabelMapper.insertSelective(recentLabel);
-			memberLabelMapper.insertSelective(repeatLabel);
-			memberLabelMapper.insertSelective(brandLabel);
-			memberLabelMapper.insertSelective(sizeLabel);
-			memberLabelMapper.insertSelective(styleLabel);
-			memberLabelMapper.insertSelective(timeLabel);
-		}
-		else{		//非第一次下单更新标签
-			MemberLabelExample levelLabelExample=new MemberLabelExample();
-			levelLabelExample.createCriteria().andMemberidEqualTo(member.getId()).andTypecodeEqualTo(LabelTypeEnum.LABELTYPE_LEVEL.getCode());
+		MemberLabelExample levelLabelExample=new MemberLabelExample();
+		levelLabelExample.createCriteria().andMemberidEqualTo(member.getId()).andTypecodeEqualTo(LabelTypeEnum.LABELTYPE_LEVEL.getCode());
+		if(memberLabelMapper.countByExample(levelLabelExample)>0){
 			memberLabelMapper.updateByExampleSelective(levelLabel, levelLabelExample);
-			
-			MemberLabelExample moneyLabelExample=new MemberLabelExample();
-			moneyLabelExample.createCriteria().andMemberidEqualTo(member.getId()).andTypecodeEqualTo(LabelTypeEnum.LABELTYPE_MONEY.getCode());
+		}
+		else{
+			memberLabelMapper.insertSelective(levelLabel);
+		}
+		
+		MemberLabelExample moneyLabelExample=new MemberLabelExample();
+		moneyLabelExample.createCriteria().andMemberidEqualTo(member.getId()).andTypecodeEqualTo(LabelTypeEnum.LABELTYPE_MONEY.getCode());
+		if(memberLabelMapper.countByExample(moneyLabelExample)>0){
 			memberLabelMapper.updateByExampleSelective(moneyLabel, moneyLabelExample);
-			
-			MemberLabelExample recentLabelExample=new MemberLabelExample();
-			recentLabelExample.createCriteria().andMemberidEqualTo(member.getId()).andTypecodeEqualTo(LabelTypeEnum.LABELTYPE_RECENT.getCode());
+		}
+		else{
+			memberLabelMapper.insertSelective(moneyLabel);
+		}
+		
+		MemberLabelExample recentLabelExample=new MemberLabelExample();
+		recentLabelExample.createCriteria().andMemberidEqualTo(member.getId()).andTypecodeEqualTo(LabelTypeEnum.LABELTYPE_RECENT.getCode());
+		if(memberLabelMapper.countByExample(recentLabelExample)>0){
 			memberLabelMapper.updateByExampleSelective(recentLabel, recentLabelExample);
-			
-			MemberLabelExample repeatLabelExample=new MemberLabelExample();
-			repeatLabelExample.createCriteria().andMemberidEqualTo(member.getId()).andTypecodeEqualTo(LabelTypeEnum.LABELTYPE_REPEAT.getCode());
+		}
+		else{
+			memberLabelMapper.insertSelective(recentLabel);
+		}
+		
+		MemberLabelExample repeatLabelExample=new MemberLabelExample();
+		repeatLabelExample.createCriteria().andMemberidEqualTo(member.getId()).andTypecodeEqualTo(LabelTypeEnum.LABELTYPE_REPEAT.getCode());
+		if(memberLabelMapper.countByExample(repeatLabelExample)>0){
 			memberLabelMapper.updateByExampleSelective(repeatLabel, repeatLabelExample);
-			
-			MemberLabelExample brandLabelExample=new MemberLabelExample();
-			brandLabelExample.createCriteria().andMemberidEqualTo(member.getId()).andTypecodeEqualTo(LabelTypeEnum.LABELTYPE_BRAND.getCode());
+		}
+		else{
+			memberLabelMapper.insertSelective(repeatLabel);
+		}
+		
+		MemberLabelExample brandLabelExample=new MemberLabelExample();
+		brandLabelExample.createCriteria().andMemberidEqualTo(member.getId()).andTypecodeEqualTo(LabelTypeEnum.LABELTYPE_BRAND.getCode());
+		if(memberLabelMapper.countByExample(brandLabelExample)>0){
 			memberLabelMapper.updateByExampleSelective(brandLabel, brandLabelExample);
-			
-			MemberLabelExample sizeLabelExample=new MemberLabelExample();
-			sizeLabelExample.createCriteria().andMemberidEqualTo(member.getId()).andTypecodeEqualTo(LabelTypeEnum.LABELTYPE_SIZE.getCode());
+		}
+		else{
+			memberLabelMapper.insertSelective(brandLabel);
+		}
+		
+		MemberLabelExample sizeLabelExample=new MemberLabelExample();
+		sizeLabelExample.createCriteria().andMemberidEqualTo(member.getId()).andTypecodeEqualTo(LabelTypeEnum.LABELTYPE_SIZE.getCode());
+		if(memberLabelMapper.countByExample(sizeLabelExample)>0){
 			memberLabelMapper.updateByExampleSelective(sizeLabel, sizeLabelExample);
-			
-			MemberLabelExample styleLabelExample=new MemberLabelExample();
-			styleLabelExample.createCriteria().andMemberidEqualTo(member.getId()).andTypecodeEqualTo(LabelTypeEnum.LABELTYPE_STYLE.getCode());
+		}
+		else{
+			memberLabelMapper.insertSelective(sizeLabel);
+		}
+		
+		MemberLabelExample styleLabelExample=new MemberLabelExample();
+		styleLabelExample.createCriteria().andMemberidEqualTo(member.getId()).andTypecodeEqualTo(LabelTypeEnum.LABELTYPE_STYLE.getCode());
+		if(memberLabelMapper.countByExample(styleLabelExample)>0){
 			memberLabelMapper.updateByExampleSelective(styleLabel, styleLabelExample);
-			
-			MemberLabelExample timeLabelExample=new MemberLabelExample();
-			timeLabelExample.createCriteria().andMemberidEqualTo(member.getId()).andTypecodeEqualTo(LabelTypeEnum.LABELTYPE_TIME.getCode());
+		}
+		else{
+			memberLabelMapper.insertSelective(styleLabel);
+		}
+		
+		MemberLabelExample timeLabelExample=new MemberLabelExample();
+		timeLabelExample.createCriteria().andMemberidEqualTo(member.getId()).andTypecodeEqualTo(LabelTypeEnum.LABELTYPE_TIME.getCode());
+		if(memberLabelMapper.countByExample(timeLabelExample)>0){
 			memberLabelMapper.updateByExampleSelective(timeLabel, timeLabelExample);
+		}
+		else{
+			memberLabelMapper.insertSelective(timeLabel);
 		}
 	}
 }
