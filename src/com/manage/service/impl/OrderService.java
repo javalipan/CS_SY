@@ -468,7 +468,7 @@ public class OrderService implements IOrderService {
 		}
 		
 		
-		if(member.getDiscount()!=null&&member.getDiscount()>0&&member.getDiscount()<10){		//会员折扣
+		if(member!=null&&member.getDiscount()!=null&&member.getDiscount()>0&&member.getDiscount()<10){		//会员折扣
 			viptotal=MathUtils.div(MathUtils.mul(viptotal, member.getDiscount()), 10);
 		}
 		
