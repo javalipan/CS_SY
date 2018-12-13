@@ -450,7 +450,7 @@ $(function(){
   		}
   		$("#useBalance").text(0);
 		$("input[name='balancepay']").val(0);
-		calc();
+		//calc();
   		layer.open({
 	  		  title:'使用余额',
 	  		  type: 1, 
@@ -482,7 +482,12 @@ $(function(){
   		inputTxt=parseFloat(inputTxt);
   		$("#useBalance").text(inputTxt);
   		$("input[name='balancepay']").val(inputTxt);
-  		calc();
+  		//calc();
+  		var totalpricetxt=$("input[name='totalprice']").val();
+  		if(isNaN(totalpricetxt)||parseFloat(totalpricetxt)<0){
+  			totalpricetxt=0;
+  		}
+  		$("#remainPay").text(Number(totalpricetxt).sub(parseFloat(inputTxt)));
   		layer.closeAll();
   	});
   	
