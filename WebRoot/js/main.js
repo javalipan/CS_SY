@@ -16,8 +16,8 @@ $(function(){
 		  		  layer.msg("清先选择商品!");
 		  		  return false;
 		  	 }
-	  		var totalprice=$("input[name='totalprice']").val();
-	  		if(!totalprice||isNaN(totalprice)||parseFloat(totalprice)<0){
+	  		var topay=$("input[name='topay']").val();
+	  		if(!topay||isNaN(topay)||parseFloat(topay)<0){
 	  			layer.msg("订单异常!");
 		  		  return false;
 	  		}
@@ -172,12 +172,13 @@ $(function(){
 	  						$("#goodsTable tbody tr[js-value='"+detailid+"']").children().eq(10).find("input[type='text']").val(newamount);
 	  					}
 	  					else{		//未添加则添加至结算列表
-			  				html+="<tr js-value='"+detailid+"' js-isdiscount='"+trs.eq(i).children().eq(6).attr("js-isdiscount")+"'><td>"+($("#goodsTable tbody tr").length+1)+"</td><td>"+trs.eq(i).children().eq(0).text()+"</td><td>"+trs.eq(i).children().eq(1).text()+"</td><td>"+trs.eq(i).children().eq(2).text()+"</td><td>"+trs.eq(i).children().eq(3).text()+"</td><td>"+trs.eq(i).children().eq(4).text()+"</td><td>"+trs.eq(i).children().eq(5).text()+"</td><td>"+trs.eq(i).children().eq(6).text()+"</td><td><input type='text' class='inputtxt discount' onkeyup='onlyNum(this)' onchange='discountchange(this)' class='discountinput' style='width:50px;text-align:center;' value='"+(trs.eq(i).children().eq(9).text()=="折扣中"?trs.eq(i).children().eq(8).text():"0")+"'></td><td>"+trs.eq(i).children().eq(9).text()+"</td><td><input type='text' class='inputtxt' onkeyup='onlyNum(this)' resamount='"+resamount+"' onchange='numchange(this)' style='width:50px;text-align:center;' value='"+amount+"'></td><td>0</td><td><input type='button' value='删除' onclick='$(this).parent().parent().remove();calc();' class='layui-btn layui-btn-mini'/></td></tr>";
+			  				html+="<tr js-value='"+detailid+"' js-isdiscount='"+trs.eq(i).children().eq(6).attr("js-isdiscount")+"'><td>"+($("#goodsTable tbody tr").length+1)+"</td><td>"+trs.eq(i).children().eq(0).text()+"</td><td>"+trs.eq(i).children().eq(1).text()+"</td><td>"+trs.eq(i).children().eq(2).text()+"</td><td>"+trs.eq(i).children().eq(3).text()+"</td><td>"+trs.eq(i).children().eq(4).text()+"</td><td>"+trs.eq(i).children().eq(5).text()+"</td><td>"+trs.eq(i).children().eq(6).text()+"</td><td><input type='text' class='inputtxt discount' onkeyup='onlyNum(this)' onchange='discountchange(this)' class='discountinput' style='width:50px;text-align:center;' value='"+(trs.eq(i).children().eq(9).text()=="折扣中"?trs.eq(i).children().eq(8).text():"0")+"'></td><td>"+trs.eq(i).children().eq(9).text()+"</td><td><input type='text' class='inputtxt' onkeyup='onlyNum(this)' resamount='"+resamount+"' onchange='numchange(this)' style='width:50px;text-align:center;' value='"+amount+"'></td><td>0</td><td><input type='button' value='删除' onclick='$(this).parent().parent().remove();clearBalance();calc();' class='layui-btn layui-btn-mini'/></td></tr>";
 				  			$("#goodsTable tbody").append(html);
 	  					}
 	  				}
 	  			}
 	  			layer.closeAll();
+	  			clearBalance();
 	  			calc();
 	  		}
 	  		if(e.keyCode==27){	//esc
@@ -210,7 +211,7 @@ $(function(){
 			calc();
 			return;
   		}
-  		if(parseInt($(this).val())/weight>parseFloat($("input[name='totalprice']").val())){
+  		if(parseInt($(this).val())/weight>parseFloat($("input[name='topay']").val())){
   			layer.msg("兑换金额不能大于订单总金额");
   			$(this).val(0);
   			calc();
@@ -226,8 +227,8 @@ $(function(){
   	});
   	
   	$("#payed").change(function(){		//实收金额改变
-  		if($("input[name='totalprice']").val()&&!isNaN($("input[name='totalprice']").val())&&parseFloat($("input[name='totalprice']").val())>0){
-	  		var total=parseFloat($("input[name='totalprice']").val());
+  		if($("input[name='topay']").val()&&!isNaN($("input[name='topay']").val())&&parseFloat($("input[name='topay']").val())>0){
+	  		var total=parseFloat($("input[name='topay']").val());
 	  		if($("#payed").val()&&!isNaN($("#payed").val())&&parseFloat($("#payed").val())>0){
 	  			var refund=(Number(parseFloat($("#payed").val())).sub(total)).toFixed(2);
 	  			if(refund<0){
@@ -240,25 +241,19 @@ $(function(){
   		}
   	});
   	
-  	$("input[name='totalprice']").change(function(){
-  		var totalprice=$(this).val();
-  		if(isNaN(totalprice)||parseFloat(totalprice)<0){
+  	$("input[name='topay']").change(function(){
+  		var topay=$(this).val();
+  		if(isNaN(topay)||parseFloat(topay)<0){
   			layer.msg("输入金额不合法");
   			$(this).focus();
   			calc();
   			return;
   		}
-  		$("#remainPay").text(totalprice);
-  		if($("#payed").val()&&!isNaN($("#payed").val())&&parseFloat($("#payed").val())>0){
-  			var viptotal=parseFloat(totalprice);
-  			var torefund=Number(parseFloat($("#payed").val())).sub(viptotal).toFixed(2);
-  			if(torefund>=0){
-	  			$("#torefund").text(torefund+"元");
-  			}
-  			else{
-	  			$("#torefund").text("元");
-  			}
-  		}
+  		clearBalance();
+		$("#remainPay").text(topay);
+  		$("input[name='totalprice']").val(topay);
+  		$("#discountPrice").text("--");
+  		discountDetail="";
   	});
   	
   	$("#searchBtn").click(function(){
@@ -450,7 +445,6 @@ $(function(){
   		}
   		$("#useBalance").text(0);
 		$("input[name='balancepay']").val(0);
-		//calc();
   		layer.open({
 	  		  title:'使用余额',
 	  		  type: 1, 
@@ -475,19 +469,22 @@ $(function(){
   			layer.alert("余额不足!");
   			return;
   		}
-  		if(parseFloat(inputTxt)>parseFloat($("input[name='totalprice']").val())){
+  		if(parseFloat(inputTxt)>parseFloat($("input[name='topay']").val())){
   			layer.alert("输入金额大于订单金额!");
   			return;
   		}
   		inputTxt=parseFloat(inputTxt);
   		$("#useBalance").text(inputTxt);
   		$("input[name='balancepay']").val(inputTxt);
-  		//calc();
-  		var totalpricetxt=$("input[name='totalprice']").val();
-  		if(isNaN(totalpricetxt)||parseFloat(totalpricetxt)<0){
-  			totalpricetxt=0;
+  		
+  		var topaytxt=$("input[name='topay']").val();
+  		if(isNaN(topaytxt)||parseFloat(topaytxt)<0){
+  			topaytxt=0;
   		}
-  		$("#remainPay").text(Number(totalpricetxt).sub(parseFloat(inputTxt)));
+  		var remainPay=Number(topaytxt).sub(parseFloat(inputTxt));
+  		$("#remainPay").text(remainPay);
+  		$("input[name='totalprice']").val(remainPay);
+  		
   		layer.closeAll();
   	});
   	
@@ -539,7 +536,7 @@ $(function(){
   			layer.alert("请先选择要是用的优惠券!");
   			return;
   		}*/
-  		if(parseFloat(coupontotal)>parseFloat($("input[name='totalprice']").val())){
+  		if(parseFloat(coupontotal)>parseFloat($("input[name='topay']").val())){
   			layer.alert("输入金额大于订单金额!");
   			return;
   		}
@@ -632,27 +629,30 @@ function calc(){
 		discountDetail+="会员折扣优惠:"+yh_member+"元<br/>";
 	}
 	
+	$("input[name='topay']").val(viptotal.toFixed(2));
+	
 	var balancepay=parseFloat($("input[name='balancepay']").val());		//余额支付
 	if(balancepay&&balancepay>0){
-		viptotal=Number(viptotal).sub(balancepay);
+		
+		var topaytxt=$("input[name='topay']").val();
+  		if(isNaN(topaytxt)||parseFloat(topaytxt)<0){
+  			topaytxt=0;
+  		}
+  		var remainPay=Number(topaytxt).sub(balancepay);
+  		$("#remainPay").text(remainPay);
+  		$("input[name='totalprice']").val(remainPay);
+	}else{
+		var topaytxt=$("input[name='topay']").val();
+  		if(isNaN(topaytxt)||parseFloat(topaytxt)<0){
+  			topaytxt=0;
+  		}
+		$("#remainPay").text(topaytxt);
+  		$("input[name='totalprice']").val(topaytxt);
 	}
-	$("input[name='totalprice']").val(viptotal.toFixed(2));
 	
-	var dp=Number(Number(total).sub(Number($("input[name='totalprice']").val()).add(balancepay?balancepay:0))).add(parseFloat($("#couponUse").text())).toFixed(2);
+	var dp=Number(Number(total).sub(Number($("input[name='topay']").val()))).add(parseFloat($("#couponUse").text())).toFixed(2);
 	$("#discountPrice").text(dp+"元");	//享受优惠
 	$("input[name='discount']").val(dp);
-	
-	
-	$("#remainPay").text(viptotal>=0?viptotal.toFixed(2):0);
-	if($("#payed").val()&&!isNaN($("#payed").val())&&parseFloat($("#payed").val())>0){
-		var torefund=Number(parseFloat($("#payed").val())).sub(viptotal).toFixed(2);
-		if(torefund>=0){
-  			$("#torefund").text(torefund+"元");
-		}
-		else{
-  			$("#torefund").text("元");
-		}
-	}
 }
 
 function numchange(t){
@@ -665,6 +665,7 @@ function numchange(t){
 		layer.msg("数量不能大于库存!");
 		$(t).val(resamount);
 	}
+	clearBalance();
 	calc();
 }
 
@@ -676,6 +677,7 @@ function discountchange(t){
 		calc();
 		return;
 	}
+	clearBalance();
 	var price=parseFloat($(t).parent().parent().children().eq(6).text());
 	if(parseInt($(t).val())==0||parseInt($(t).val())==10){
 		$(t).parent().parent().attr("js-isdiscount","0");
@@ -757,4 +759,9 @@ function getMemberInfo(){
 			calc();
 		}
 	});
+}
+
+function clearBalance(){
+	$("input[name='balancepay']").val(0);
+	$("#useBalance").text(0);
 }
