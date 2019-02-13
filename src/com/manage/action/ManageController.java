@@ -2,15 +2,13 @@ package com.manage.action;
 
 import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -52,6 +50,9 @@ import com.manage.service.IRechargeService;
 import com.manage.service.IRegionService;
 import com.manage.service.IUserService;
 import com.manage.util.CommonUtil;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 @Controller
 @RequestMapping(value="/manage")
@@ -167,9 +168,12 @@ public class ManageController extends BaseController{
 			int count=orderService.countByExample(orderExample);
 			result.put("ordercount", count);
 			
-			Date now=new Date();
 			MemberCouponExample memberCouponExample=new MemberCouponExample();
-			memberCouponExample.createCriteria().andMemberidEqualTo(member.getId()).andStatusEqualTo("0").andStarttimeLessThanOrEqualTo(now).andEndtimeGreaterThanOrEqualTo(now);
+			Calendar calendar=Calendar.getInstance();
+			calendar.set(Calendar.HOUR_OF_DAY, 0);
+			calendar.set(Calendar.MINUTE, 0);
+			calendar.set(Calendar.SECOND, 0);
+			memberCouponExample.createCriteria().andMemberidEqualTo(member.getId()).andStatusEqualTo("0").andStarttimeLessThanOrEqualTo(calendar.getTime()).andEndtimeGreaterThanOrEqualTo(calendar.getTime());
 			List<MemberCoupon> memberCoupons=memberCouponService.selectByExample(memberCouponExample);
 			int total=0;
 			for(MemberCoupon memberCoupon:memberCoupons){
